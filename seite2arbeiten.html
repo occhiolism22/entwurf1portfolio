@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amira – Arbeiten</title>
+<meta name="description" content="Arbeiten von Amira: Collage, Fotografie, Film, 3D und Text.">
+
+<style>
+  :root {
+    --coffee: #503429;     /* Dark Coffee */
+    --ebony: #515335;      /* Ebony */
+    --rosewood: #ae5369;   /* Rosewood */
+    --sand: #a89c70;       /* Sand */
+    --rose: #d58198;       /* Old Rose */
+  }
+
+  * { box-sizing: border-box; }
+  ::selection { background: var(--sand); color: var(--coffee); }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--rose); color: var(--coffee);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--ebony); outline-offset: -3px; }
+
+  /* ---------- obere Leiste ---------- */
+  .bar {
+    position: fixed; top: 0; left: 0; right: 0; height: 30px; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.5rem; font-size: 15px;
+    background: var(--rose); border-bottom: 1px solid var(--coffee);
+  }
+  .bar a { text-decoration: none; }
+  .bar a:hover { text-decoration: underline; }
+  .bar nav { display: flex; gap: 2rem; }
+
+  /* ---------- Split: Vorschau links, Liste rechts ---------- */
+  .split {
+    margin-top: 30px; height: calc(100vh - 30px);
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--coffee);
+  }
+  .preview {
+    position: relative; overflow: hidden;
+    border-right: 1px solid var(--coffee);
+    display: grid; place-items: center;
+  }
+  .preview .empty { color: rgba(80, 52, 41, .45); font-size: 1.1rem; }
+  .slide { position: absolute; inset: 0; display: none; }
+  .slide.on { display: block; }
+  .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slide .block {
+    width: 100%; height: 100%; display: grid; place-items: center;
+    padding: 2rem; text-align: center;
+    font-weight: 800; font-size: clamp(2rem, 5vw, 5rem);
+    letter-spacing: -0.04em; line-height: 0.95;
+  }
+
+  .index { height: 100%; overflow-y: auto; }
+  .index-head {
+    position: sticky; top: 0; z-index: 2; background: var(--rose);
+    border-bottom: 1px solid var(--coffee);
+    padding: 1.2rem 1.5rem 1rem;
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem;
+  }
+  .index-head h1 {
+    margin: 0; font-weight: 500; line-height: 0.95; letter-spacing: -0.04em;
+    font-size: clamp(2.4rem, 5vw, 5rem);
+  }
+  .index-head h1 em { font-style: italic; }
+  .socials { display: grid; gap: 0.1rem; font-size: clamp(1.05rem, 1.7vw, 1.7rem); letter-spacing: -0.03em; }
+  .socials a { text-decoration: none; }
+  .socials a:hover { color: var(--ebony); }
+
+  .list { list-style: none; margin: 0; padding: 0; }
+  .row {
+    display: block; width: 100%; text-align: left; background: none; border: 0;
+    border-bottom: 1px solid var(--coffee);
+    padding: 0.4rem 1.5rem 0.55rem;
+    transition: opacity .2s;
+  }
+  .row .meta { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 500; text-transform: uppercase; }
+  .row .title {
+    display: block; font-weight: 500; letter-spacing: -0.045em; line-height: 1.02;
+    font-size: clamp(2.2rem, 4.8vw, 4.8rem);
+    white-space: nowrap; overflow: hidden;
+  }
+  .list:hover .row:not(:hover) { opacity: .25; }
+  .list:focus-within .row:not(:focus-visible) { opacity: .25; }
+  .list .row:hover, .list .row:focus-visible { opacity: 1; background: var(--sand); }
+
+  /* ---------- Über mich / Kontakt ---------- */
+  .section { padding: 4rem 1.5rem; border-bottom: 1px solid var(--coffee); }
+  .section h2 {
+    margin: 0 0 2rem; font-weight: 500; letter-spacing: -0.04em; line-height: .95;
+    font-size: clamp(2.4rem, 5vw, 5rem);
+  }
+  .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 2rem 4rem; }
+  .section p { max-width: 30em; margin: 0 0 1em; font-size: 1.25rem; line-height: 1.3; letter-spacing: -0.01em; }
+  .mail { font-size: clamp(1.6rem, 6vw, 4.5rem); font-weight: 500; letter-spacing: -0.045em; overflow-wrap: anywhere; text-decoration: none; }
+  .mail:hover { color: var(--ebony); }
+  .links { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.5rem; font-size: 1.4rem; letter-spacing: -0.02em; }
+
+  #impressum { padding: 3rem 1.5rem 4rem; }
+  #impressum h2 { font-size: 1.6rem; margin-bottom: 1rem; }
+  #impressum p { font-size: 1rem; line-height: 1.5; }
+
+  /* ---------- Detailansicht ---------- */
+  .detail { position: fixed; inset: 0; z-index: 30; background: var(--rose); overflow-y: auto; }
+  .detail-bar {
+    position: sticky; top: 0; z-index: 2; height: 30px; padding: 0 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--rose); border-bottom: 1px solid var(--coffee); font-size: 15px;
+  }
+  .detail-bar button { background: none; border: 0; padding: 0; }
+  .detail-bar button:hover { text-decoration: underline; }
+  .detail-body {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 2rem 2.5rem;
+    padding: 1.5rem; align-items: start;
+  }
+  .d-media { aspect-ratio: 16 / 9; background: rgba(80, 52, 41, .08); }
+  .d-media.is-image { aspect-ratio: auto; background: none; }
+  .d-media iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .d-media img, .d-extra img { width: 100%; display: block; }
+  .d-media .none { height: 100%; display: grid; place-items: center; color: rgba(80,52,41,.5); }
+  .d-text h2 { margin: 0 0 .6rem; font-weight: 500; letter-spacing: -0.04em; line-height: 1; font-size: clamp(2rem, 3.6vw, 3.6rem); }
+  .d-meta { display: inline-block; margin: 0 0 1.5rem; padding: .2rem .6rem; font-size: .85rem; text-transform: uppercase; background: var(--sand); border: 1px solid var(--coffee); border-radius: 999px; }
+  .d-desc { margin: 0; font-size: 1.15rem; line-height: 1.35; white-space: pre-line; max-width: 30em; }
+  .d-extra { padding: 0 1.5rem 3rem; display: grid; gap: 1rem; }
+
+  /* ---------- Kreis-Cursor (nur mit Maus) ---------- */
+  #cursor { display: none; opacity: 0; }
+  @media (hover: hover) and (pointer: fine) {
+    body, a, button { cursor: none; }
+    #cursor {
+      display: grid; place-items: center;
+      position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none;
+      width: 22px; height: 22px; margin: -11px 0 0 -11px;
+      border: 2px solid var(--coffee); border-radius: 50%;
+      font-size: 14px; font-weight: 700; color: var(--coffee);
+      transition: width .2s, height .2s, margin .2s, background .2s, border-color .2s;
+    }
+    #cursor.big  { width: 104px; height: 104px; margin: -52px 0 0 -52px; background: var(--coffee); color: var(--rose); border-color: var(--coffee); }
+    #cursor.link { width: 50px; height: 50px; margin: -25px 0 0 -25px; background: var(--rosewood); border-color: var(--coffee); }
+  }
+
+  /* ---------- Handy / schmale Fenster ---------- */
+  @media (max-width: 800px) {
+    .split { grid-template-columns: 1fr; height: auto; }
+    .preview { display: none; }
+    .index { height: auto; overflow: visible; }
+    .index-head { top: 30px; }
+    .row .title { white-space: normal; }
+    .list:hover .row:not(:hover), .list:focus-within .row:not(:focus-visible) { opacity: 1; }
+    .detail-body { grid-template-columns: 1fr; }
+    .bar nav { gap: 1rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="bar">
+  <a href="index.html">AMIRA</a>
+  <nav aria-label="Hauptnavigation">
+    <a href="#arbeiten">Arbeiten</a>
+    <a href="#ueber-mich">Über mich</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+</div>
+
+<main>
+  <section class="split" id="arbeiten">
+    <div class="preview" id="preview" aria-hidden="true">
+      <span class="empty" id="empty">hover over project »</span>
+    </div>
+
+    <div class="index">
+      <div class="index-head">
+        <h1>Index<br><em>meiner</em> Arbeiten</h1>
+        <div class="socials">
+          <a href="https://www.instagram.com/DEIN-NAME" rel="noopener">Instagram ▶</a>
+          <a href="https://www.youtube.com/@DEIN-KANAL" rel="noopener">YouTube ▶</a>
+        </div>
+      </div>
+      <ul class="list" id="list"></ul>
+    </div>
+  </section>
+
+  <section class="section" id="ueber-mich">
+    <h2>Über mich</h2>
+    <div class="about-grid">
+      <div>
+        <p>Ich bin Amira, Designstudentin an der HTW Berlin. Ich arbeite sehr gerne mit Collage, Fotografie, Film, 3D und Text.</p>
+        <p>Ersetze diesen Text durch deinen eigenen: Was treibt dich an, was suchst du (z. B. ein Praktikum)?</p>
+      </div>
+      <div>
+        <p>Tools: Blender, Schnittprogramm, Photoshop.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="kontakt">
+    <h2>Kontakt</h2>
+    <a class="mail" href="mailto:deine@email.de">deine@email.de</a>
+    <div class="links">
+      <a href="https://www.instagram.com/DEIN-NAME" rel="noopener">Instagram ▶</a>
+      <a href="https://www.youtube.com/@DEIN-KANAL" rel="noopener">YouTube ▶</a>
+    </div>
+  </section>
+
+  <!-- Impressum: Öffentliche Websites in Deutschland brauchen in der Regel eines.
+       Bitte mit deinen echten Daten füllen. -->
+  <section id="impressum">
+    <h2>Impressum</h2>
+    <p>Angaben gemäß § 5 DDG</p>
+    <p>Vorname Nachname<br>Straße Hausnummer<br>PLZ Berlin</p>
+    <p>E-Mail: deine@email.de</p>
+  </section>
+</main>
+
+<!-- Detailansicht eines Projekts -->
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" hidden>
+  <div class="detail-bar">
+    <span>Arbeiten</span>
+    <button type="button" id="d-close">schließen ✕</button>
+  </div>
+  <div class="detail-body">
+    <div class="d-media" id="d-media"></div>
+    <div class="d-text">
+      <h2 id="d-title"></h2>
+      <p class="d-meta" id="d-meta"></p>
+      <p class="d-desc" id="d-desc"></p>
+    </div>
+  </div>
+  <div class="d-extra" id="d-extra"></div>
+</div>
+
+<div id="cursor" aria-hidden="true"><span></span></div>
+
+<script>
+/* =====================================================================
+   DEINE PROJEKTE – hier trägst du alles ein. Pro Projekt ein { ... }-Block,
+   Reihenfolge = Reihenfolge in der Liste.
+
+   title   Titel des Projekts
+   kind    Art, z. B. "Kurzfilm", "Collage", "3D"
+   year    Jahr
+   text    Beschreibung (neue Absätze mit \n\n)
+   media   genau EINS davon eintragen:
+             { youtube: "VIDEO-ID" }      YouTube (ID steht im Link nach v=)
+             { vimeo:   "VIDEO-ID" }      Vimeo   (Zahl am Ende des Links)
+             { image:   "bilder/x.jpg" }  Bild aus deinem bilder-Ordner
+   preview (optional) Bild für die Hover-Vorschau links. Bei YouTube-Videos
+           wird automatisch das YouTube-Vorschaubild genommen.
+   extra   (optional) weitere Bilder für die Detailansicht, z. B. ["bilder/a.jpg", "bilder/b.jpg"]
+   ===================================================================== */
+var PROJECTS = [
+  {
+    title: "Projekttitel 1",
+    kind: "Kurzfilm", year: "2026",
+    text: "Zwei, drei Sätze: Worum geht es, was war deine Rolle, welche Tools hast du benutzt?",
+    media: { youtube: "" }
+  },
+  {
+    title: "Projekttitel 2",
+    kind: "Collage", year: "2026",
+    text: "Hier kommt die Beschreibung zu deinem zweiten Projekt hin.",
+    media: { image: "" }
+  },
+  {
+    title: "Projekttitel 3",
+    kind: "3D / Blender", year: "2026",
+    text: "Hier kommt die Beschreibung zu deinem dritten Projekt hin.",
+    media: { vimeo: "" }
+  },
+  {
+    title: "Projekttitel 4",
+    kind: "Fotografie", year: "2025",
+    text: "Hier kommt die Beschreibung zu deinem vierten Projekt hin.",
+    media: { image: "" }
+  },
+  {
+    title: "Projekttitel 5",
+    kind: "Text", year: "2025",
+    text: "Hier kommt die Beschreibung zu deinem fünften Projekt hin.",
+    media: { image: "" }
+  }
+];
+</script>
+
+<script>
+(function () {
+
+  /* Platzhalter-Farben für Projekte ohne Bild */
+  var PLACEHOLDERS = [
+    { bg: "#515335", fg: "#a89c70" },
+    { bg: "#a89c70", fg: "#503429" },
+    { bg: "#ae5369", fg: "#503429" },
+    { bg: "#503429", fg: "#d58198" }
+  ];
+
+  var list = document.getElementById("list");
+  var preview = document.getElementById("preview");
+  var emptyEl = document.getElementById("empty");
+  var slides = [];
+
+  function previewSrc(p) {
+    if (p.preview) return p.preview;
+    if (p.media && p.media.youtube) return "https://img.youtube.com/vi/" + encodeURIComponent(p.media.youtube) + "/hqdefault.jpg";
+    if (p.media && p.media.image) return p.media.image;
+    return "";
+  }
+
+  /* Liste + Vorschau-Slides aufbauen */
+  PROJECTS.forEach(function (p, i) {
+    var li = document.createElement("li");
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "row";
+
+    var meta = document.createElement("span");
+    meta.className = "meta";
+    var k = document.createElement("span"); k.textContent = p.kind;
+    var y = document.createElement("span"); y.textContent = p.year;
+    meta.appendChild(k); meta.appendChild(y);
+
+    var t = document.createElement("span");
+    t.className = "title";
+    t.textContent = p.title;
+
+    btn.appendChild(meta); btn.appendChild(t);
+    li.appendChild(btn);
+    list.appendChild(li);
+
+    var slide = document.createElement("div");
+    slide.className = "slide";
+    var src = previewSrc(p);
+    if (src) {
+      var img = document.createElement("img");
+      img.src = src; img.alt = "";
+      slide.appendChild(img);
+    } else {
+      var c = PLACEHOLDERS[i % PLACEHOLDERS.length];
+      var block = document.createElement("div");
+      block.className = "block";
+      block.style.background = c.bg; block.style.color = c.fg;
+      block.textContent = p.title;
+      slide.appendChild(block);
+    }
+    preview.appendChild(slide);
+    slides.push(slide);
+
+    btn.addEventListener("mouseenter", function () { showSlide(i); });
+    btn.addEventListener("focus", function () { showSlide(i); });
+    btn.addEventListener("click", function () { openDetail(i, btn); });
+  });
+
+  function showSlide(i) {
+    slides.forEach(function (s, n) { s.classList.toggle("on", n === i); });
+    emptyEl.style.display = "none";
+  }
+  function clearSlides() {
+    slides.forEach(function (s) { s.classList.remove("on"); });
+    emptyEl.style.display = "";
+  }
+  list.addEventListener("mouseleave", clearSlides);
+
+  /* ---------- Detailansicht ---------- */
+  var detail = document.getElementById("detail");
+  var dMedia = document.getElementById("d-media");
+  var dTitle = document.getElementById("d-title");
+  var dMeta = document.getElementById("d-meta");
+  var dDesc = document.getElementById("d-desc");
+  var dExtra = document.getElementById("d-extra");
+  var dClose = document.getElementById("d-close");
+  var lastFocus = null;
+
+  function buildMedia(p) {
+    var m = p.media || {};
+    dMedia.className = "d-media";
+    dMedia.innerHTML = "";
+    if (m.youtube) {
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(m.youtube);
+      f.title = p.title; f.loading = "lazy"; f.allowFullscreen = true;
+      f.setAttribute("allow", "accelerometer; encrypted-media; picture-in-picture");
+      dMedia.appendChild(f);
+    } else if (m.vimeo) {
+      var v = document.createElement("iframe");
+      v.src = "https://player.vimeo.com/video/" + encodeURIComponent(m.vimeo) + "?dnt=1";
+      v.title = p.title; v.loading = "lazy"; v.allowFullscreen = true;
+      v.setAttribute("allow", "fullscreen; picture-in-picture");
+      dMedia.appendChild(v);
+    } else if (m.image) {
+      dMedia.classList.add("is-image");
+      var im = document.createElement("img");
+      im.src = m.image; im.alt = p.title;
+      dMedia.appendChild(im);
+    } else {
+      var n = document.createElement("div");
+      n.className = "none";
+      n.textContent = "Hier kommt dein Video oder Bild hin";
+      dMedia.appendChild(n);
+    }
+  }
+
+  function openDetail(i, trigger) {
+    var p = PROJECTS[i];
+    lastFocus = trigger || null;
+    buildMedia(p);
+    dTitle.textContent = p.title;
+    dMeta.textContent = p.kind + " · " + p.year;
+    dDesc.textContent = p.text || "";
+    dExtra.innerHTML = "";
+    (p.extra || []).forEach(function (src) {
+      var im = document.createElement("img");
+      im.src = src; im.alt = "";
+      im.loading = "lazy";
+      dExtra.appendChild(im);
+    });
+    detail.hidden = false;
+    detail.scrollTop = 0;
+    document.body.style.overflow = "hidden";
+    dClose.focus();
+    cursorEl.className = "";
+  }
+  function closeDetail() {
+    detail.hidden = true;
+    dMedia.innerHTML = "";          // stoppt laufende Videos
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+  dClose.addEventListener("click", closeDetail);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !detail.hidden) closeDetail();
+  });
+
+  /* ---------- Kreis-Cursor ---------- */
+  var cursorEl = document.getElementById("cursor");
+  var cursorText = cursorEl.querySelector("span");
+  window.addEventListener("pointermove", function (e) {
+    cursorEl.style.opacity = 1;
+    cursorEl.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+    var t = e.target.closest ? e.target : null;
+    if (t && t.closest(".row")) {
+      cursorEl.className = "big"; cursorText.textContent = "ansehen";
+    } else if (t && t.closest("a, button")) {
+      cursorEl.className = "link"; cursorText.textContent = "";
+    } else {
+      cursorEl.className = ""; cursorText.textContent = "";
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
