@@ -206,7 +206,7 @@
 
   <section class="section" id="kontakt">
     <h2>Kontakt</h2>
-    <a class="mail" href="mailto:deine@email.de">deine@email.de</a>
+    <a class="mail" href="mailto:amira.alzahra@aol.com">amira.alzahra@aol.com</a>
     <div class="links">
       <a href="https://www.instagram.com/amiracle222" rel="noopener">Instagram ▶</a>
       <a href="https://www.youtube.com/@DEIN-KANAL" rel="noopener">YouTube ▶</a>
@@ -218,7 +218,7 @@
   <section id="impressum">
     <h2>Impressum</h2>
     <p>Angaben gemäß § 5 DDG</p>
-    <p>Vorname Nachname<br>Elsenstr. 5, 12435 Treptow<br>PLZ Berlin</p>
+    <p>Amira Naaiyess<br>Elsenstr. 5<br>12435 Berlin treptow</p>
     <p>E-Mail: amira.alzahra@aol.com</p>
   </section>
 </main>
@@ -259,12 +259,15 @@
            wird automatisch das YouTube-Vorschaubild genommen.
    extra   (optional) weitere Bilder für die Detailansicht, z. B. ["bilder/a.jpg", "bilder/b.jpg"]
    ===================================================================== */
-var PROJECTS = [
+
+  var PROJECTS = [
   {
-    title: "Amiracles Magazin",
-    kind: "Editorial Design", year: "2025",
+    title: "Amiracle's Magazin",
+    kind: "Editorial Design", 
+    year: "2025",
     text: "Wir sollten für den Typografiekurs ein Magazin erstellen und alle unsere Arbeiten einbetten. Da ich mich während meinen Hausaufgaben eh auf Musik fokussiert habe, habe ich ein Musikmagazin erstellt.",
-    media: { youtube: "" }
+    media: { image: "" },
+    action: function() { starteFlipbook(); } // Aktiviert das Flipbook beim Klicken!
   },
   {
     title: "Projekttitel 2",
@@ -459,5 +462,62 @@ var PROJECTS = [
 })();
 </script>
 
+  <!-- INTERAKTIVES FLIPBOOK CONTAINER -->
+<div id="magazin-container" style="display: none; text-align: center; margin: 40px auto; max-width: 800px;">
+    <h3 style="color: #fff; margin-bottom: 20px;">Amiracles Magazin (Interaktives Flipbook)</h3>
+    <div id="flipbook" style="margin: 0 auto; width: 800px; height: 500px;"></div>
+</div>
+
+<!-- TURN.JS BIBLIOTHEKEN & SOUND -->
+<script src="https://jquery.com"></script>
+<script src="https://cloudflare.com"></script>
+
+<script>
+    // Blätter-Geräusch laden
+    const pageFlipSound = new Audio('https://soundjay.com');
+
+    function starteFlipbook() {
+        const totalPages = 38; // Genau auf deine 38 Seiten angepasst
+        const flipbookContainer = \$('#flipbook');
+        
+        // Verhindert, dass die Seiten bei jedem Klick doppelt generiert werden
+        if (flipbookContainer.children().length === 0) {
+            for (let i = 1; i <= totalPages; i++) {
+                // Macht aus der Zahl 1 -> '0001', aus 38 -> '0038'
+                let pageNumber = String(i).padStart(4, '0');
+                let imageUrl = `AMIRACLES MAGAZIN N°1_page-${pageNumber}.jpg`;
+                
+                // Erstellt die einzelne Seite
+                let pageHtml = `<div style="background-image:url('${imageUrl}'); background-size: 100% 100%;"></div>`;
+                flipbookContainer.append(pageHtml);
+            }
+
+            // Aktiviert das Flipbook mit Knick- und Blättereffekt
+            flipbookContainer.turn({
+                width: 800,
+                height: 500,
+                autoCenter: true,
+                duration: 1000, // Blätter-Geschwindigkeit
+                when: {
+                    turning: function(event, page, view) {
+                        // Sound abspielen bei jedem Umblättern
+                        pageFlipSound.currentTime = 0;
+                        pageFlipSound.play().catch(e => console.log("Sound aktiv nach dem ersten Klick"));
+                    }
+                }
+            });
+        }
+        
+        // Zeigt das Magazin geschmeidig an
+        \$('#magazin-container').fadeIn();
+        
+        // Scrolle automatisch zum Magazin, damit man es sofort sieht
+        \$('html, body').animate({
+            scrollTop: \$("#magazin-container").offset().top - 20
+        }, 500);
+    }
+</script>
+
+  
 </body>
 </html>
