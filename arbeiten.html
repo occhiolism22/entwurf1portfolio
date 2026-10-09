@@ -142,16 +142,26 @@
   .cv-row .what { font-size: 1.25rem; line-height: 1.25; letter-spacing: -0.01em; }
   .cv-row .what small { display: block; margin-top: .3rem; font-size: 1rem; line-height: 1.35; }
   .cv-row .what a:hover { color: var(--ebony); }
-  .cv-todo { background: var(--sand); padding: 0 .35rem; }   /* markiert Stellen, die du noch ausfüllen musst */
+  .cv-todo { background: var(--sand); padding: 0 .35rem; }
+  .cv-actions { margin: 0; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; max-width: none; }
+  .cv-btn {
+    display: inline-block; padding: .6rem 1.4rem; text-decoration: none;
+    border: 2px solid var(--coffee); border-radius: 999px; background: var(--sand);
+    font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em;
+  }
+  .cv-btn:hover { background: var(--ebony); color: var(--rose); }
+  .cv-btn.is-off { background: none; border-style: dashed; pointer-events: none; }
+  .cv-note { font-size: 1rem; }   /* markiert Stellen, die du noch ausfüllen musst */
 
   /* ---------- Magazin zum Durchblättern ---------- */
   .detail-body.wide { grid-template-columns: 1fr; }
   .d-media.is-flip { aspect-ratio: auto; background: none; }
   .flip-ui { display: flex; flex-direction: column; gap: .9rem; }
   .flip-ui:fullscreen { background: var(--rose); padding: 1rem; justify-content: center; }
-  .flip-stage { width: 100%; display: flex; justify-content: center; align-items: center; min-height: 260px; }
-  .flip-book { width: 100%; margin: 0 auto; }
-  .flip-book .page { background-color: #fff; background-repeat: no-repeat; overflow: hidden; }
+  .flip-stage { width: 100%; text-align: center; }
+  .flip-book { margin: 0 auto; }
+  .flip-book .page { background: #fff; overflow: hidden; }
+  .flip-book .pg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-repeat: no-repeat; }
   .flip-msg { padding: 3rem 1rem; text-align: center; color: rgba(80, 52, 41, .7); }
   .flip-bar { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; font-size: 15px; }
   .flip-bar button {
@@ -218,7 +228,7 @@
         <div class="socials">
           <a href="https://www.instagram.com/amiracle222" rel="noopener">Instagram ▶</a>
           <a href="https://www.youtube.com/@DEIN-KANAL" rel="noopener">YouTube ▶</a>
-          <a href="https://letterboxd.com/ochiolism1111/" rel="noopener">Letterboxd ▶</a>
+          <a href="https://letterboxd.com/occhiolism1111/" rel="noopener">Letterboxd ▶</a>
         </div>
       </div>
       <ul class="list" id="list"></ul>
@@ -230,7 +240,7 @@
     <div class="about-grid">
       <div>
         <p>Ich bin Amira, Designstudentin an der HTW Berlin. Ich arbeite sehr gerne mit Collage, Fotografie, Film, 3D und Text.</p>
-        <p>Ersetze diesen Text durch deinen eigenen: Was treibt dich an, was suchst du (z. B. ein Praktikum)?</p>
+        <p>mich inspirieren vor allem interaktionen mit menschen, die interaktionen zwischen menschen. ich würde mich freuen, von euch, durch euch und mit euch vieles zu lernen. ich hätte lust, mich auszuprobieren, ideen gerne miteinzubringen und in den paar monaten, in denen ich da bin, mit euch zu wachsen und das kleine abenteuer zu genießen.</p>
       </div>
       <div>
         <p>Tools: Blender, DaVinci Resolve, Photoshop, InDesign</p>
@@ -261,7 +271,7 @@
 
       <h4>Film, Kreatives und Praktikum</h4>
       <div class="cv-row">
-        <span class="when">seit <span class="cv-todo">MM/JJJJ</span></span>
+        <span class="when">seit 04/2026</span>
         <span class="what"><strong>Filmgruppe</strong>, jeden Freitag – Aufnahmeleiterin und Postproduction
           <small>Zuständig für Aufnahmeleitung sowie Schnitt und Color Grading. In der Gruppe probieren wir alles aus: Schauspiel, Regie, Kamera und Produktion. Aktuell entwickeln wir gemeinsam einen Film, jede:r erfindet zwei Charaktere, als Nächstes folgt ein Casting.</small></span>
       </div>
@@ -296,7 +306,8 @@
       </div>
       <div class="cv-row">
         <span class="when">KI-Tools</span>
-        <span class="what"><span class="cv-todo">bitte ergänzen: welche du nutzt und wofür, z. B. Recherche, Ideenfindung, Textüberarbeitung</span></span>
+        <span class="what">Claude und Adobe Firefly
+          <small>Für erste Visualisierungen, wenn wenig Zeit ist, das Bild aus meinem Kopf in Blender umzusetzen.</small></span>
       </div>
       <div class="cv-row">
         <span class="when">Sprachen</span>
@@ -308,7 +319,7 @@
       <h3>Interessen</h3>
       <div class="cv-row">
         <span class="when">Film</span>
-        <span class="what">Ich kann den ganzen Tag über Filme reden. Freitags mit der Filmgruppe, dazwischen auf <a href="https://letterboxd.com/ochiolism1111/" rel="noopener">Letterboxd</a> ▶</span>
+        <span class="what">Ich kann den ganzen Tag über Filme reden. Freitags mit der Filmgruppe, dazwischen auf <a href="https://letterboxd.com/occhiolism1111/" rel="noopener">Letterboxd</a> ▶</span>
       </div>
       <div class="cv-row">
         <span class="when">Mixed Media</span>
@@ -316,19 +327,16 @@
       </div>
       <div class="cv-row">
         <span class="when">Collage</span>
-        <span class="what">Papier schneiden, kleben, neu zusammensetzen</span>
-      </div>
-      <div class="cv-row">
-        <span class="when">Häkeln</span>
-        <span class="what"><span class="cv-todo">bitte ergänzen oder löschen: ein Satz, z. B. was du zuletzt gehäkelt hast</span></span>
-      </div>
-      <div class="cv-row">
-        <span class="when">Pflanzen</span>
-        <span class="what"><span class="cv-todo">bitte ergänzen oder löschen: ein Satz dazu</span></span>
+        <span class="what">Analog und digital, für Videoprojekte, aber auch für Posterdesign und Editorial</span>
       </div>
     </div>
 
-    <p><a href="mailto:amira.alzahra@aol.com?subject=Lebenslauf%20anfragen">Vollständigen Lebenslauf per Mail anfragen ▶</a></p>
+    <!-- Lebenslauf-Download: Lege deine PDF unter dem Namen lebenslauf.pdf neben diese Datei,
+         dann wird der Button automatisch aktiv. Bis dahin zeigt er "kommt bald". -->
+    <p class="cv-actions">
+      <a class="cv-btn is-off" id="cv-btn" href="lebenslauf.pdf" download aria-disabled="true">Lebenslauf als PDF herunterladen</a>
+      <span class="cv-note" id="cv-note">kommt bald</span>
+    </p>
   </section>
 
   <section class="section" id="kontakt">
@@ -337,7 +345,7 @@
     <div class="links">
       <a href="https://www.instagram.com/amiracle222" rel="noopener">Instagram ▶</a>
       <a href="https://www.youtube.com/@DEIN-KANAL" rel="noopener">YouTube ▶</a>
-      <a href="https://letterboxd.com/ochiolism1111/" rel="noopener">Letterboxd ▶</a>
+      <a href="https://letterboxd.com/occhiolism1111/" rel="noopener">Letterboxd ▶</a>
     </div>
   </section>
 
@@ -593,7 +601,7 @@
 
   /* ---------- Magazin (Blätter-Effekt mit StPageFlip) ---------- */
   var FLIP_SRC = "https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js";
-  var flipLoading = null, activeFlip = null, flipResize = null;
+  var flipLoading = null, activeFlip = null, flipResize = null, flipFs = null;
   var flipSoundOn = true, audioCtx = null;
 
   function flipUrl(cfg, n) {
@@ -614,6 +622,9 @@
   }
   function destroyFlip() {
     if (flipResize) { window.removeEventListener("resize", flipResize); flipResize = null; }
+    if (flipFs) { document.removeEventListener("fullscreenchange", flipFs); flipFs = null; }
+    if (document.fullscreenElement && document.exitFullscreen) { try { document.exitFullscreen(); } catch (e) {} }
+    if (cursorEl && cursorEl.parentNode !== document.body) document.body.appendChild(cursorEl);
     if (activeFlip) { try { activeFlip.destroy(); } catch (e) {} activeFlip = null; }
   }
 
@@ -718,8 +729,11 @@
         var el = document.createElement("div");
         el.className = "page";
         if (i === 0 || i === pages.length - 1) el.setAttribute("data-density", "hard");
-        if (p.side === "full") { el.style.backgroundSize = "100% 100%"; el.style.backgroundPosition = "0 0"; }
-        else { el.style.backgroundSize = "200% 100%"; el.style.backgroundPosition = (p.side === "left" ? "0% 0" : "100% 0"); }
+        var pg = document.createElement("div");
+        pg.className = "pg";
+        if (p.side === "full") { pg.style.backgroundSize = "100% 100%"; pg.style.backgroundPosition = "0 0"; }
+        else { pg.style.backgroundSize = "200% 100%"; pg.style.backgroundPosition = (p.side === "left" ? "0% 0" : "100% 0"); }
+        el.appendChild(pg);
         el.setAttribute("role", "img");
         el.setAttribute("aria-label", title + ", Seite " + (i + 1));
         book.appendChild(el);
@@ -732,15 +746,26 @@
         for (var i = Math.max(0, center - 4); i <= Math.min(pages.length - 1, center + 7); i++) {
           if (loaded[i]) continue;
           loaded[i] = true;
-          els[i].style.backgroundImage = 'url("' + flipUrl(cfg, pages[i].file).replace(/"/g, "%22") + '")';
+          els[i].firstChild.style.backgroundImage = 'url("' + flipUrl(cfg, pages[i].file).replace(/"/g, "%22") + '")';
         }
       }
       ensure(0);
 
-      /* Buchgröße begrenzen, damit es in die Höhe passt */
+      /* Buchgröße: so groß wie der Platz erlaubt, aber nie höher als der Bildschirm */
       function fit() {
-        var h = Math.min(window.innerHeight * (document.fullscreenElement ? 0.82 : 0.76), 900);
-        book.style.maxWidth = Math.round(h * 2 * ratio) + "px";
+        var full = !!document.fullscreenElement;
+        var availH = full ? window.innerHeight - 90 : Math.min(window.innerHeight - 210, 820);
+        availH = Math.max(availH, 300);
+        var availW = stage.clientWidth || host.clientWidth || window.innerWidth;
+        var w;
+        if (availW < 520) {                       // schmal (Handy): eine Seite
+          w = Math.min(availW, Math.round(availH * ratio));
+        } else {                                  // breit: aufgeschlagenes Buch mit zwei Seiten
+          w = Math.min(availW, Math.round(availH * 2 * ratio));
+          w = Math.max(w, 521);
+          w = Math.min(w, availW);
+        }
+        book.style.width = Math.round(w) + "px";
       }
       fit();
 
@@ -787,10 +812,34 @@
         else if (ui.requestFullscreen) ui.requestFullscreen();
       });
 
-      flipResize = function () { fit(); try { pf.update(); } catch (e) {} };
+      flipResize = function () {
+        if (activeFlip !== pf) return;
+        fit();
+        try { pf.update(); } catch (e) {}
+      };
       window.addEventListener("resize", flipResize);
+
+      /* Vollbild: Kreis-Cursor mit ins Vollbild nehmen, sonst ist die Maus unsichtbar */
+      flipFs = function () {
+        if (document.fullscreenElement === ui) ui.appendChild(cursorEl);
+        else if (cursorEl.parentNode !== document.body) document.body.appendChild(cursorEl);
+        flipResize();
+      };
+      document.addEventListener("fullscreenchange", flipFs);
+
+      /* Nach dem Aufbau mehrfach neu berechnen, damit die Größe von Anfang an stimmt */
+      [0, 150, 600].forEach(function (ms) { setTimeout(flipResize, ms); });
     }
   }
+
+  /* ---------- Lebenslauf-Button: aktiv, sobald lebenslauf.pdf existiert ---------- */
+  (function () {
+    var btn = document.getElementById("cv-btn"), note = document.getElementById("cv-note");
+    if (!btn || !window.fetch) return;
+    fetch(btn.getAttribute("href"), { method: "HEAD" }).then(function (r) {
+      if (r.ok) { btn.classList.remove("is-off"); btn.removeAttribute("aria-disabled"); note.hidden = true; }
+    }).catch(function () {});
+  })();
 
   /* ---------- Kreis-Cursor ---------- */
   var cursorEl = document.getElementById("cursor");
