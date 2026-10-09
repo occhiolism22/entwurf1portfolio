@@ -173,6 +173,10 @@
   .flip-bar .fb-label { min-width: 11rem; text-align: center; }
   .flip-bar .fb-spacer { flex: 1; }
 
+  /* ---------- Eingebettetes Video (auch Hochformat) ---------- */
+  .d-media.is-video { aspect-ratio: auto; background: none; }
+  .d-media video { display: block; max-width: 100%; max-height: 78vh; width: auto; height: auto; background: #000; }
+
   /* ---------- Kreis-Cursor (nur mit Maus) ---------- */
   #cursor { display: none; opacity: 0; }
   @media (hover: hover) and (pointer: fine) {
@@ -226,7 +230,7 @@
       <div class="index-head">
         <h1>Index<br><em>meiner</em> Arbeiten</h1>
         <div class="socials">
-          <a href="https://www.instagram.com/amiracle222" rel="noopener">Instagram ▶</a>
+          <a href="https://www.instagram.com/amiracles.archive" rel="noopener">Instagram ▶</a>
           <a href="https://letterboxd.com/occhiolism1111/" rel="noopener">Letterboxd ▶</a>
         </div>
       </div>
@@ -390,6 +394,7 @@
              { vimeo:   "VIDEO-ID" }      Vimeo   (Zahl am Ende des Links)
              { image:   "bilder/x.jpg" }  Bild aus deinem bilder-Ordner
              { flipbook: { ... } }        Magazin zum Durchblättern (siehe erstes Projekt)
+             { video:   "datei.mp4" }     Video direkt von deiner Seite (liegt neben dieser Datei)
    preview (optional) Bild für die Hover-Vorschau links. Bei YouTube-Videos
            wird automatisch das YouTube-Vorschaubild genommen.
    extra   (optional) weitere Bilder für die Detailansicht, z. B. ["bilder/a.jpg", "bilder/b.jpg"]
@@ -415,16 +420,17 @@
     }
   },
   {
-    title: "Die Stadt, die nie schläft",
-    kind: "Ausstellungsdesign", year: "2026",
-    text: "Im Rahmen eines Hauptprojektes für die Uni haben wir uns eine AUsstellung für das Q Science Space überlegt. Hier habe ich mich mit mein Partner:in zusammen das Konzept überlegt, feingeschliefen und spezifisch um die Raumgestaltung gekmmert. Geplant und visuell dargestellt habe ich das mit Blender.",
-    media: { image: "installation with poeple.png" }
-  },
-  {
     title: "Minimusikvideo",
     kind: "3D / Blender", year: "2026",
-    text: "Wir sollten für ein Einführungskurs in 3D ein kurzes Video rendern. Ich habe mich für ein kleines Musikvideo entschieden.",
-    media: { vimeo: "" }
+    text: "Wir sollten für einen Einführungskurs in 3D ein kurzes Video rendern. Ich habe mich für ein kleines Musikvideo entschieden.",
+    preview: "coverbildmm.png",
+    media: { video: "minimusicvideo.mp4" }
+  },
+  {
+    title: "Die Stadt, die nie schläft",
+    kind: "Ausstellungsdesign", year: "2026",
+    text: "Im Rahmen eines Hauptprojektes für die Uni haben wir uns eine Ausstellung für das Q Science Space überlegt. Hier habe ich mir mit meiner Partner:in zusammen das Konzept überlegt, es feingeschliffen und mich speziell um die Raumgestaltung gekümmert. Geplant und visuell dargestellt habe ich das mit Blender.",
+    media: { image: "installation with poeple.png" }
   },
   {
     title: "Projekttitel 4",
@@ -536,6 +542,16 @@
     if (m.flipbook) {
       dMedia.classList.add("is-flip");
       buildFlipbook(m.flipbook, dMedia, p.title);
+    } else if (m.video) {
+      dMedia.classList.add("is-video");
+      var vd = document.createElement("video");
+      vd.src = encodeURI(m.video) + "#t=0.1";     // #t=0.1 zeigt schon vor dem Start ein Standbild
+      vd.controls = true;
+      vd.playsInline = true;
+      vd.preload = "metadata";
+      if (m.poster) vd.poster = encodeURI(m.poster);
+      vd.setAttribute("aria-label", p.title);
+      dMedia.appendChild(vd);
     } else if (m.youtube) {
       var f = document.createElement("iframe");
       f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(m.youtube);
