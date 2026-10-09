@@ -132,6 +132,37 @@
   .d-desc { margin: 0; font-size: 1.15rem; line-height: 1.35; white-space: pre-line; max-width: 30em; }
   .d-extra { padding: 0 1.5rem 3rem; display: grid; gap: 1rem; }
 
+  /* ---------- Lebenslauf ---------- */
+  .cv-block { margin-bottom: 3.5rem; max-width: 62rem; }
+  .cv-block h3 { margin: 0 0 1rem; font-weight: 500; letter-spacing: -0.04em; line-height: 1; font-size: clamp(1.8rem, 3.4vw, 3.2rem); }
+  .cv-block h4 { margin: 2rem 0 .5rem; font-size: .8rem; font-weight: 500; text-transform: uppercase; }
+  .cv-row { display: grid; grid-template-columns: 11rem 1fr; gap: .4rem 1.5rem; padding: .8rem 0; border-top: 1px solid var(--coffee); }
+  .cv-row:last-child { border-bottom: 1px solid var(--coffee); }
+  .cv-row .when { font-size: .85rem; font-weight: 500; text-transform: uppercase; padding-top: .35rem; }
+  .cv-row .what { font-size: 1.25rem; line-height: 1.25; letter-spacing: -0.01em; }
+  .cv-row .what small { display: block; margin-top: .3rem; font-size: 1rem; line-height: 1.35; }
+  .cv-row .what a:hover { color: var(--ebony); }
+  .cv-todo { background: var(--sand); padding: 0 .35rem; }   /* markiert Stellen, die du noch ausfüllen musst */
+
+  /* ---------- Magazin zum Durchblättern ---------- */
+  .detail-body.wide { grid-template-columns: 1fr; }
+  .d-media.is-flip { aspect-ratio: auto; background: none; }
+  .flip-ui { display: flex; flex-direction: column; gap: .9rem; }
+  .flip-ui:fullscreen { background: var(--rose); padding: 1rem; justify-content: center; }
+  .flip-stage { width: 100%; display: flex; justify-content: center; align-items: center; min-height: 260px; }
+  .flip-book { width: 100%; margin: 0 auto; }
+  .flip-book .page { background-color: #fff; background-repeat: no-repeat; overflow: hidden; }
+  .flip-msg { padding: 3rem 1rem; text-align: center; color: rgba(80, 52, 41, .7); }
+  .flip-bar { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; font-size: 15px; }
+  .flip-bar button {
+    background: none; border: 1px solid var(--coffee); border-radius: 999px;
+    padding: .25rem .9rem; font-size: 15px; line-height: 1.4;
+  }
+  .flip-bar button:hover { background: var(--sand); }
+  .flip-bar .fb-arrow { font-size: 20px; padding: .05rem .9rem .15rem; }
+  .flip-bar .fb-label { min-width: 11rem; text-align: center; }
+  .flip-bar .fb-spacer { flex: 1; }
+
   /* ---------- Kreis-Cursor (nur mit Maus) ---------- */
   #cursor { display: none; opacity: 0; }
   @media (hover: hover) and (pointer: fine) {
@@ -158,6 +189,7 @@
     .list:hover .row:not(:hover), .list:focus-within .row:not(:focus-visible) { opacity: 1; }
     .detail-body { grid-template-columns: 1fr; }
     .bar nav { gap: 1rem; }
+    .cv-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -169,6 +201,7 @@
   <nav aria-label="Hauptnavigation">
     <a href="#arbeiten">Arbeiten</a>
     <a href="#ueber-mich">Über mich</a>
+    <a href="#lebenslauf">Lebenslauf</a>
     <a href="#kontakt">Kontakt</a>
   </nav>
 </div>
@@ -183,8 +216,9 @@
       <div class="index-head">
         <h1>Index<br><em>meiner</em> Arbeiten</h1>
         <div class="socials">
-          <a href="https://www.instagram.com/DEIN-NAME" rel="noopener">Instagram ▶</a>
+          <a href="https://www.instagram.com/amiracle222" rel="noopener">Instagram ▶</a>
           <a href="https://www.youtube.com/@DEIN-KANAL" rel="noopener">YouTube ▶</a>
+          <a href="https://letterboxd.com/ochiolism1111/" rel="noopener">Letterboxd ▶</a>
         </div>
       </div>
       <ul class="list" id="list"></ul>
@@ -199,9 +233,102 @@
         <p>Ersetze diesen Text durch deinen eigenen: Was treibt dich an, was suchst du (z. B. ein Praktikum)?</p>
       </div>
       <div>
-        <p>Tools: Blender, Davince Resolve, Photoshop, Indesign</p>
+        <p>Tools: Blender, DaVinci Resolve, Photoshop, InDesign</p>
       </div>
     </div>
+  </section>
+
+  <!-- =====================================================================
+       LEBENSLAUF – bewusst OHNE Adresse, Handynummer, Geburtsdatum und Foto,
+       weil die Seite öffentlich ist. Den vollständigen CV schickst du nur in
+       Bewerbungen (als PDF). Gelb markierte Stellen ("bitte ergänzen") musst
+       du noch ausfüllen oder löschen.
+       Reihenfolge: neueste Station zuerst. Jede Zeile ist ein <div class="cv-row">.
+       ===================================================================== -->
+  <section class="section" id="lebenslauf">
+    <h2>Lebenslauf</h2>
+
+    <div class="cv-block">
+      <h3>Bildung</h3>
+      <div class="cv-row"><span class="when">seit 10/2025</span><span class="what"><strong>HTW Berlin</strong> – Kommunikationsdesign</span></div>
+      <div class="cv-row"><span class="when">10/2024 – 09/2025</span><span class="what"><strong>Hochschule RheinMain</strong> – Kommunikationsdesign</span></div>
+      <div class="cv-row"><span class="when">02/2024 – 06/2024</span><span class="what"><strong>Mappenkurs</strong> im Studio Zeiler, München</span></div>
+      <div class="cv-row"><span class="when">06/2020</span><span class="what"><strong>Gymnasium Grünwald</strong> – Abschluss</span></div>
+    </div>
+
+    <div class="cv-block">
+      <h3>Erfahrung</h3>
+
+      <h4>Film, Kreatives und Praktikum</h4>
+      <div class="cv-row">
+        <span class="when">seit <span class="cv-todo">MM/JJJJ</span></span>
+        <span class="what"><strong>Filmgruppe</strong>, jeden Freitag – Aufnahmeleiterin und Postproduction
+          <small>Zuständig für Aufnahmeleitung sowie Schnitt und Color Grading. In der Gruppe probieren wir alles aus: Schauspiel, Regie, Kamera und Produktion. Aktuell entwickeln wir gemeinsam einen Film, jede:r erfindet zwei Charaktere, als Nächstes folgt ein Casting.</small></span>
+      </div>
+      <div class="cv-row">
+        <span class="when">05/2022 – 09/2024</span>
+        <span class="what"><strong>Events, Führung und Promotion</strong>
+          <small>Tourguide Bavaria Filmstadt · Spielleiterin Escape Room „Smart Room“ · Promoterin bei Direct Result. Gruppen anleiten, Geschichten erzählen, vor Publikum sprechen.</small></span>
+      </div>
+      <div class="cv-row">
+        <span class="when">10/2021 – 04/2022</span>
+        <span class="what"><strong>Praktikum Marketing</strong> bei Paradigm Capital</span>
+      </div>
+
+      <h4>Weitere Jobs</h4>
+      <div class="cv-row">
+        <span class="when">09/2019 – 10/2026</span>
+        <span class="what"><strong>Service in der Gastronomie</strong>
+          <small>Baraka Restaurant · Restaurant Agadir · L’Osteria am Gasteig · Waitersclub. Teamarbeit unter Zeitdruck, Gästekontakt, mehrsprachig.</small></span>
+      </div>
+      <div class="cv-row">
+        <span class="when">10/2017 – 01/2025</span>
+        <span class="what"><strong>Verkauf und Aushilfen</strong>
+          <small>Søstrene Grene · Velomax · denns Biomarkt · Edeka · Bäckerei Hauer. Kundenkontakt, Verlässlichkeit.</small></span>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <h3>Kenntnisse</h3>
+      <div class="cv-row">
+        <span class="when">Programme</span>
+        <span class="what">Blender, DaVinci Resolve, Photoshop, InDesign</span>
+      </div>
+      <div class="cv-row">
+        <span class="when">KI-Tools</span>
+        <span class="what"><span class="cv-todo">bitte ergänzen: welche du nutzt und wofür, z. B. Recherche, Ideenfindung, Textüberarbeitung</span></span>
+      </div>
+      <div class="cv-row">
+        <span class="when">Sprachen</span>
+        <span class="what">Deutsch und Arabisch (Muttersprache) · Englisch (C1) · Französisch (B2)</span>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <h3>Interessen</h3>
+      <div class="cv-row">
+        <span class="when">Film</span>
+        <span class="what">Ich kann den ganzen Tag über Filme reden. Freitags mit der Filmgruppe, dazwischen auf <a href="https://letterboxd.com/ochiolism1111/" rel="noopener">Letterboxd</a> ▶</span>
+      </div>
+      <div class="cv-row">
+        <span class="when">Mixed Media</span>
+        <span class="what">Aquarell und Ölpastellkreide</span>
+      </div>
+      <div class="cv-row">
+        <span class="when">Collage</span>
+        <span class="what">Papier schneiden, kleben, neu zusammensetzen</span>
+      </div>
+      <div class="cv-row">
+        <span class="when">Häkeln</span>
+        <span class="what"><span class="cv-todo">bitte ergänzen oder löschen: ein Satz, z. B. was du zuletzt gehäkelt hast</span></span>
+      </div>
+      <div class="cv-row">
+        <span class="when">Pflanzen</span>
+        <span class="what"><span class="cv-todo">bitte ergänzen oder löschen: ein Satz dazu</span></span>
+      </div>
+    </div>
+
+    <p><a href="mailto:amira.alzahra@aol.com?subject=Lebenslauf%20anfragen">Vollständigen Lebenslauf per Mail anfragen ▶</a></p>
   </section>
 
   <section class="section" id="kontakt">
@@ -210,6 +337,7 @@
     <div class="links">
       <a href="https://www.instagram.com/amiracle222" rel="noopener">Instagram ▶</a>
       <a href="https://www.youtube.com/@DEIN-KANAL" rel="noopener">YouTube ▶</a>
+      <a href="https://letterboxd.com/ochiolism1111/" rel="noopener">Letterboxd ▶</a>
     </div>
   </section>
 
@@ -255,6 +383,7 @@
              { youtube: "VIDEO-ID" }      YouTube (ID steht im Link nach v=)
              { vimeo:   "VIDEO-ID" }      Vimeo   (Zahl am Ende des Links)
              { image:   "bilder/x.jpg" }  Bild aus deinem bilder-Ordner
+             { flipbook: { ... } }        Magazin zum Durchblättern (siehe erstes Projekt)
    preview (optional) Bild für die Hover-Vorschau links. Bei YouTube-Videos
            wird automatisch das YouTube-Vorschaubild genommen.
    extra   (optional) weitere Bilder für die Detailansicht, z. B. ["bilder/a.jpg", "bilder/b.jpg"]
@@ -262,12 +391,22 @@
 
   var PROJECTS = [
   {
-    title: "Amiracle's Magazin",
-    kind: "Editorial Design", 
+    title: "AMIRACLES MAGAZIN N°1",
+    kind: "Editorial Design",
     year: "2025",
     text: "Wir sollten für den Typografiekurs ein Magazin erstellen und alle unsere Arbeiten einbetten. Da ich mich während meinen Hausaufgaben eh auf Musik fokussiert habe, habe ich ein Musikmagazin erstellt.",
-    media: { image: "" },
-    action: function() { starteFlipbook(); } // Aktiviert das Flipbook beim Klicken!
+    media: {
+      flipbook: {
+        folder: "",                                        // "" = die Bilder liegen direkt neben dieser Datei
+        name: "AMIRACLES MAGAZIN N°1_page-{n}.jpg",        // {n} wird durch 0001, 0002 ... ersetzt
+        pad: 4,                                            // 4 Stellen: 0001 bis 0038
+        count: 38,                                         // Anzahl Dateien
+        // spreads: true,                                  // optional: true = Datei 2 bis 37 sind Doppelseiten,
+                                                           // false = jede Datei ist eine einzelne Seite.
+                                                           // Ohne diese Zeile erkennt die Seite es automatisch.
+        sound: ""                                          // optional: eigene Datei, z. B. "blaettern.mp3"
+      }
+    }
   },
   {
     title: "Projekttitel 2",
@@ -314,6 +453,7 @@
 
   function previewSrc(p) {
     if (p.preview) return p.preview;
+    if (p.media && p.media.flipbook) return flipUrl(p.media.flipbook, 1);
     if (p.media && p.media.youtube) return "https://img.youtube.com/vi/" + encodeURIComponent(p.media.youtube) + "/hqdefault.jpg";
     if (p.media && p.media.image) return p.media.image;
     return "";
@@ -387,7 +527,10 @@
     var m = p.media || {};
     dMedia.className = "d-media";
     dMedia.innerHTML = "";
-    if (m.youtube) {
+    if (m.flipbook) {
+      dMedia.classList.add("is-flip");
+      buildFlipbook(m.flipbook, dMedia, p.title);
+    } else if (m.youtube) {
       var f = document.createElement("iframe");
       f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(m.youtube);
       f.title = p.title; f.loading = "lazy"; f.allowFullscreen = true;
@@ -426,6 +569,7 @@
       im.loading = "lazy";
       dExtra.appendChild(im);
     });
+    document.querySelector(".detail-body").classList.toggle("wide", !!(p.media && p.media.flipbook));
     detail.hidden = false;
     detail.scrollTop = 0;
     document.body.style.overflow = "hidden";
@@ -434,14 +578,219 @@
   }
   function closeDetail() {
     detail.hidden = true;
+    destroyFlip();
     dMedia.innerHTML = "";          // stoppt laufende Videos
     document.body.style.overflow = "";
     if (lastFocus) lastFocus.focus();
   }
   dClose.addEventListener("click", closeDetail);
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !detail.hidden) closeDetail();
+    if (detail.hidden) return;
+    if (e.key === "Escape") closeDetail();
+    else if (activeFlip && e.key === "ArrowRight") activeFlip.flipNext();
+    else if (activeFlip && e.key === "ArrowLeft") activeFlip.flipPrev();
   });
+
+  /* ---------- Magazin (Blätter-Effekt mit StPageFlip) ---------- */
+  var FLIP_SRC = "https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js";
+  var flipLoading = null, activeFlip = null, flipResize = null;
+  var flipSoundOn = true, audioCtx = null;
+
+  function flipUrl(cfg, n) {
+    var num = String(n);
+    while (num.length < (cfg.pad || 0)) num = "0" + num;
+    return encodeURI((cfg.folder || "") + (cfg.name || "seite-{n}.jpg").replace("{n}", num));
+  }
+  function loadPageFlip() {
+    if (window.St && window.St.PageFlip) return Promise.resolve();
+    if (flipLoading) return flipLoading;
+    flipLoading = new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = FLIP_SRC; s.onload = resolve;
+      s.onerror = function () { flipLoading = null; reject(new Error("load")); };
+      document.head.appendChild(s);
+    });
+    return flipLoading;
+  }
+  function destroyFlip() {
+    if (flipResize) { window.removeEventListener("resize", flipResize); flipResize = null; }
+    if (activeFlip) { try { activeFlip.destroy(); } catch (e) {} activeFlip = null; }
+  }
+
+  /* Blättergeräusch: eigene Datei (cfg.sound) oder ein kleines Papier-Rauschen aus WebAudio */
+  function playFlipSound(cfg) {
+    if (!flipSoundOn) return;
+    if (cfg.sound) {
+      var a = new Audio(cfg.sound); a.volume = 0.7;
+      a.play().catch(function () {});
+      return;
+    }
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      var dur = 0.3, rate = audioCtx.sampleRate, n = Math.floor(rate * dur);
+      var buf = audioCtx.createBuffer(1, n, rate), d = buf.getChannelData(0);
+      for (var i = 0; i < n; i++) {
+        var t = i / n;
+        var env = Math.pow(Math.sin(Math.PI * Math.pow(t, 0.55)), 2) * (1 - t * 0.35);
+        d[i] = (Math.random() * 2 - 1) * env;
+      }
+      var src = audioCtx.createBufferSource(); src.buffer = buf;
+      var bp = audioCtx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.7;
+      var now = audioCtx.currentTime;
+      bp.frequency.setValueAtTime(3200, now);
+      bp.frequency.exponentialRampToValueAtTime(900, now + dur);
+      var g = audioCtx.createGain(); g.gain.value = 0.55;
+      src.connect(bp); bp.connect(g); g.connect(audioCtx.destination);
+      src.start();
+    } catch (e) {}
+  }
+
+  function buildFlipbook(cfg, host, title) {
+    destroyFlip();
+    var count = cfg.count || 1;
+    var spreads = (cfg.spreads === true || cfg.spreads === false) ? cfg.spreads : null;   // null = automatisch erkennen
+
+    host.innerHTML =
+      '<div class="flip-ui">' +
+        '<div class="flip-stage"><div class="flip-book"><p class="flip-msg">Magazin wird geladen …</p></div></div>' +
+        '<div class="flip-bar">' +
+          '<button type="button" class="fb-arrow fb-prev" aria-label="Vorherige Seite">‹</button>' +
+          '<span class="fb-label" aria-live="polite"></span>' +
+          '<button type="button" class="fb-arrow fb-next" aria-label="Nächste Seite">›</button>' +
+          '<span class="fb-spacer"></span>' +
+          '<button type="button" class="fb-sound">ton: an</button>' +
+          '<button type="button" class="fb-full">vollbild</button>' +
+        '</div>' +
+      '</div>';
+    var ui = host.querySelector(".flip-ui");
+    var stage = host.querySelector(".flip-stage");
+    var book = host.querySelector(".flip-book");
+    var label = host.querySelector(".fb-label");
+
+    /* Seitenliste: Cover einzeln, Doppelseiten werden in linke/rechte Hälfte geteilt, Rückseite einzeln */
+    var pages = [];
+    function buildPages() {
+      pages = [];
+      if (spreads && count > 2) {
+        pages.push({ file: 1, side: "full" });
+        for (var n = 2; n < count; n++) {
+          pages.push({ file: n, side: "left" });
+          pages.push({ file: n, side: "right" });
+        }
+        pages.push({ file: count, side: "full" });
+      } else {
+        for (var k = 1; k <= count; k++) pages.push({ file: k, side: "full" });
+      }
+    }
+
+    function loadSize(url) {
+      return new Promise(function (resolve) {
+        var im = new Image();
+        im.onload = function () { resolve({ w: im.naturalWidth, h: im.naturalHeight }); };
+        im.onerror = function () { resolve(null); };
+        im.src = url;
+      });
+    }
+
+    /* Cover (= einzelne Seite) und Datei 2 messen: ist Datei 2 etwa doppelt so breit, sind es Doppelseiten */
+    Promise.all([loadSize(flipUrl(cfg, 1)), loadSize(flipUrl(cfg, 2))]).then(function (sz) {
+      var cover = sz[0], second = sz[1];
+      if (!cover) {
+        book.innerHTML = "";
+        var msg = document.createElement("p");
+        msg.className = "flip-msg";
+        msg.textContent = "Die Seiten wurden nicht gefunden. Erwartet wird zum Beispiel: " + decodeURI(flipUrl(cfg, 1));
+        book.appendChild(msg);
+        return;
+      }
+      var ratio = cfg.ratio || (cover.w / cover.h);
+      if (spreads === null) spreads = !!(second && (second.w / second.h) > (cover.w / cover.h) * 1.5);
+      buildPages();
+      loadPageFlip().then(function () { init(ratio); }).catch(function () {
+        book.innerHTML = '<p class="flip-msg">Das Magazin konnte nicht geladen werden. Bitte Internetverbindung prüfen.</p>';
+      });
+    });
+
+    function init(ratio) {
+      book.innerHTML = "";
+      var els = pages.map(function (p, i) {
+        var el = document.createElement("div");
+        el.className = "page";
+        if (i === 0 || i === pages.length - 1) el.setAttribute("data-density", "hard");
+        if (p.side === "full") { el.style.backgroundSize = "100% 100%"; el.style.backgroundPosition = "0 0"; }
+        else { el.style.backgroundSize = "200% 100%"; el.style.backgroundPosition = (p.side === "left" ? "0% 0" : "100% 0"); }
+        el.setAttribute("role", "img");
+        el.setAttribute("aria-label", title + ", Seite " + (i + 1));
+        book.appendChild(el);
+        return el;
+      });
+
+      /* Bilder erst laden, wenn sie bald gebraucht werden */
+      var loaded = {};
+      function ensure(center) {
+        for (var i = Math.max(0, center - 4); i <= Math.min(pages.length - 1, center + 7); i++) {
+          if (loaded[i]) continue;
+          loaded[i] = true;
+          els[i].style.backgroundImage = 'url("' + flipUrl(cfg, pages[i].file).replace(/"/g, "%22") + '")';
+        }
+      }
+      ensure(0);
+
+      /* Buchgröße begrenzen, damit es in die Höhe passt */
+      function fit() {
+        var h = Math.min(window.innerHeight * (document.fullscreenElement ? 0.82 : 0.76), 900);
+        book.style.maxWidth = Math.round(h * 2 * ratio) + "px";
+      }
+      fit();
+
+      var pf = new St.PageFlip(book, {
+        width: 500,
+        height: Math.round(500 / ratio),
+        size: "stretch",
+        minWidth: 260, maxWidth: 1200,
+        minHeight: Math.round(260 / ratio), maxHeight: Math.round(1200 / ratio),
+        showCover: true,
+        maxShadowOpacity: 0.45,
+        flippingTime: 900,
+        usePortrait: true,
+        mobileScrollSupport: false
+      });
+      pf.loadFromHTML(els);
+      activeFlip = pf;
+
+      function updateLabel(i) {
+        var last = pages.length - 1, text;
+        if (i <= 0) text = "Cover";
+        else if (i >= last) text = "Rückseite";
+        else if (spreads && count > 2) text = "Doppelseite " + (pages[i].file - 1) + " / " + (count - 2);
+        else if (pf.getOrientation() === "landscape") text = "Seite " + (i + 1) + "–" + (i + 2) + " / " + count;
+        else text = "Seite " + (i + 1) + " / " + count;
+        label.textContent = text;
+      }
+      updateLabel(0);
+
+      pf.on("flip", function (e) { updateLabel(e.data); ensure(e.data); });
+      pf.on("changeOrientation", function () { updateLabel(pf.getCurrentPageIndex()); });
+      pf.on("changeState", function (e) { if (e.data === "flipping") playFlipSound(cfg); });
+
+      host.querySelector(".fb-prev").addEventListener("click", function () { pf.flipPrev(); });
+      host.querySelector(".fb-next").addEventListener("click", function () { pf.flipNext(); });
+      var soundBtn = host.querySelector(".fb-sound");
+      soundBtn.textContent = flipSoundOn ? "ton: an" : "ton: aus";
+      soundBtn.addEventListener("click", function () {
+        flipSoundOn = !flipSoundOn;
+        soundBtn.textContent = flipSoundOn ? "ton: an" : "ton: aus";
+      });
+      host.querySelector(".fb-full").addEventListener("click", function () {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (ui.requestFullscreen) ui.requestFullscreen();
+      });
+
+      flipResize = function () { fit(); try { pf.update(); } catch (e) {} };
+      window.addEventListener("resize", flipResize);
+    }
+  }
 
   /* ---------- Kreis-Cursor ---------- */
   var cursorEl = document.getElementById("cursor");
@@ -462,62 +811,5 @@
 })();
 </script>
 
-  <!-- INTERAKTIVES FLIPBOOK CONTAINER -->
-<div id="magazin-container" style="display: none; text-align: center; margin: 40px auto; max-width: 800px;">
-    <h3 style="color: #fff; margin-bottom: 20px;">Amiracles Magazin (Interaktives Flipbook)</h3>
-    <div id="flipbook" style="margin: 0 auto; width: 800px; height: 500px;"></div>
-</div>
-
-<!-- TURN.JS BIBLIOTHEKEN & SOUND -->
-<script src="https://jquery.com"></script>
-<script src="https://cloudflare.com"></script>
-
-<script>
-    // Blätter-Geräusch laden
-    const pageFlipSound = new Audio('https://soundjay.com');
-
-    function starteFlipbook() {
-        const totalPages = 38; // Genau auf deine 38 Seiten angepasst
-        const flipbookContainer = \$('#flipbook');
-        
-        // Verhindert, dass die Seiten bei jedem Klick doppelt generiert werden
-        if (flipbookContainer.children().length === 0) {
-            for (let i = 1; i <= totalPages; i++) {
-                // Macht aus der Zahl 1 -> '0001', aus 38 -> '0038'
-                let pageNumber = String(i).padStart(4, '0');
-                let imageUrl = `AMIRACLES MAGAZIN N°1_page-${pageNumber}.jpg`;
-                
-                // Erstellt die einzelne Seite
-                let pageHtml = `<div style="background-image:url('${imageUrl}'); background-size: 100% 100%;"></div>`;
-                flipbookContainer.append(pageHtml);
-            }
-
-            // Aktiviert das Flipbook mit Knick- und Blättereffekt
-            flipbookContainer.turn({
-                width: 800,
-                height: 500,
-                autoCenter: true,
-                duration: 1000, // Blätter-Geschwindigkeit
-                when: {
-                    turning: function(event, page, view) {
-                        // Sound abspielen bei jedem Umblättern
-                        pageFlipSound.currentTime = 0;
-                        pageFlipSound.play().catch(e => console.log("Sound aktiv nach dem ersten Klick"));
-                    }
-                }
-            });
-        }
-        
-        // Zeigt das Magazin geschmeidig an
-        \$('#magazin-container').fadeIn();
-        
-        // Scrolle automatisch zum Magazin, damit man es sofort sieht
-        \$('html, body').animate({
-            scrollTop: \$("#magazin-container").offset().top - 20
-        }, 500);
-    }
-</script>
-
-  
 </body>
 </html>
