@@ -60,9 +60,9 @@
     letter-spacing: -0.04em; line-height: 0.95;
   }
 
-  .index { height: 100%; overflow-y: auto; display: flex; flex-direction: column; }
+  .index { height: 100%; overflow-y: auto; }
   .index-head {
-    position: sticky; top: 0; z-index: 3; background: var(--rose);
+    position: sticky; top: 0; z-index: 2; background: var(--rose);
     border-bottom: 1px solid var(--coffee);
     padding: 1.2rem 1.5rem 1rem;
     display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem;
@@ -76,30 +76,13 @@
   .socials a { text-decoration: none; }
   .socials a:hover { color: var(--ebony); }
 
-  /* ---------- Filter-Leiste für Zielgruppen / Kategorien ---------- */
-  .filter-bar {
-    position: sticky; top: calc(1.2rem + clamp(2.4rem, 5vw, 5rem) + 1rem); /* Dynamisch unter den Kopfbereich geklebt */
-    z-index: 2; background: var(--rose);
-    border-bottom: 1px solid var(--coffee);
-    padding: 0.6rem 1.5rem;
-    display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;
-  }
-  .filter-btn {
-    background: none; border: 1px solid var(--coffee); border-radius: 999px;
-    padding: 0.25rem 0.8rem; font-size: 0.85rem; font-weight: 500; cursor: pointer;
-    text-transform: uppercase; transition: background .2s, color .2s;
-  }
-  .filter-btn:hover { background: var(--sand); }
-  .filter-btn.active { background: var(--coffee); color: var(--rose); }
-
-  .list { list-style: none; margin: 0; padding: 0; flex: 1; }
+  .list { list-style: none; margin: 0; padding: 0; }
   .row {
     display: block; width: 100%; text-align: left; background: none; border: 0;
     border-bottom: 1px solid var(--coffee);
     padding: 0.4rem 1.5rem 0.55rem;
     transition: opacity .2s;
   }
-  .row.is-hidden { display: none; }
   .row .meta { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 500; text-transform: uppercase; }
   .row .title {
     display: block; font-weight: 500; letter-spacing: -0.045em; line-height: 1.02;
@@ -139,7 +122,7 @@
     display: grid; grid-template-columns: 2fr 1fr; gap: 2rem 2.5rem;
     padding: 1.5rem; align-items: start;
   }
-  .d-media { aspect-ratio: 16 / 9; background: rgba(80, 52, 41, .08); display: flex; justify-content: center; align-items: center; }
+  .d-media { aspect-ratio: 16 / 9; background: rgba(80, 52, 41, .08); }
   .d-media.is-image { aspect-ratio: auto; background: none; }
   .d-media iframe { width: 100%; height: 100%; border: 0; display: block; }
   .d-media img, .d-extra img { width: 100%; display: block; }
@@ -168,31 +151,31 @@
   }
   .cv-btn:hover { background: var(--ebony); color: var(--rose); }
   .cv-btn.is-off { background: none; border-style: dashed; pointer-events: none; }
-  .cv-note { font-size: 1rem; }
+  .cv-note { font-size: 1rem; }   /* markiert Stellen, die du noch ausfüllen musst */
 
   /* ---------- Magazin zum Durchblättern ---------- */
   .detail-body.wide { grid-template-columns: 1fr; }
   .d-media.is-flip { aspect-ratio: auto; background: none; }
-  .flip-ui { display: flex; flex-direction: column; gap: .9rem; width: 100%; align-items: center; }
+  .flip-ui { display: flex; flex-direction: column; gap: .9rem; }
   .flip-ui:fullscreen { background: var(--rose); padding: 1rem; justify-content: center; }
-  .flip-stage { width: 100%; text-align: center; display: flex; justify-content: center; }
+  .flip-stage { width: 100%; text-align: center; }
   .flip-book { margin: 0 auto; }
   .flip-book .page { background: #fff; overflow: hidden; }
   .flip-book .pg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-repeat: no-repeat; }
   .flip-msg { padding: 3rem 1rem; text-align: center; color: rgba(80, 52, 41, .7); }
-  .flip-bar { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; font-size: 15px; width: 100%; max-width: 700px; justify-content: center; }
+  .flip-bar { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; font-size: 15px; }
   .flip-bar button {
     background: none; border: 1px solid var(--coffee); border-radius: 999px;
-    padding: .25rem .9rem; font-size: 15px; line-height: 1.4; cursor: pointer;
+    padding: .25rem .9rem; font-size: 15px; line-height: 1.4;
   }
   .flip-bar button:hover { background: var(--sand); }
   .flip-bar .fb-arrow { font-size: 20px; padding: .05rem .9rem .15rem; }
   .flip-bar .fb-label { min-width: 11rem; text-align: center; }
   .flip-bar .fb-spacer { flex: 1; }
 
-  /* ---------- Eingebettetes Video (mittig und angepasst) ---------- */
-  .d-media.is-video { aspect-ratio: auto; background: none; display: grid; place-items: center; padding: 1rem; }
-  .d-media video { display: block; max-width: 100%; max-height: 75vh; width: auto; height: auto; background: #000; margin: 0 auto; border-radius: 4px; }
+  /* ---------- Eingebettetes Video (auch Hochformat) ---------- */
+  .d-media.is-video { aspect-ratio: auto; background: none; }
+  .d-media video { display: block; max-width: 100%; max-height: 78vh; width: auto; height: auto; background: #000; }
 
   /* ---------- Kreis-Cursor (nur mit Maus) ---------- */
   #cursor { display: none; opacity: 0; }
@@ -216,7 +199,6 @@
     .preview { display: none; }
     .index { height: auto; overflow: visible; }
     .index-head { top: 30px; }
-    .filter-bar { top: calc(30px + clamp(2.4rem, 5vw, 5rem) + 1.2rem); }
     .row .title { white-space: normal; }
     .list:hover .row:not(:hover), .list:focus-within .row:not(:focus-visible) { opacity: 1; }
     .detail-body { grid-template-columns: 1fr; }
@@ -252,13 +234,6 @@
           <a href="https://letterboxd.com/occhiolism1111/" rel="noopener">Letterboxd ▶</a>
         </div>
       </div>
-
-      <!-- Filter-Leiste -->
-      <div class="filter-bar" id="filter-bar">
-        <button type="button" class="filter-btn active" data-filter="all">Alle</button>
-        <!-- Die restlichen Filter-Buttons generieren sich automatisch aus deinen Projekten -->
-      </div>
-
       <ul class="list" id="list"></ul>
     </div>
   </section>
@@ -276,6 +251,13 @@
     </div>
   </section>
 
+  <!-- =====================================================================
+       LEBENSLAUF – bewusst OHNE Adresse, Handynummer, Geburtsdatum und Foto,
+       weil die Seite öffentlich ist. Den vollständigen CV schickst du nur in
+       Bewerbungen (als PDF). Gelb markierte Stellen ("bitte ergänzen") musst
+       du noch ausfüllen oder löschen.
+       Reihenfolge: neueste Station zuerst. Jede Zeile ist ein <div class="cv-row">.
+       ===================================================================== -->
   <section class="section" id="lebenslauf">
     <h2>Lebenslauf</h2>
 
@@ -352,6 +334,8 @@
       </div>
     </div>
 
+    <!-- Lebenslauf-Download: Lege deine PDF unter dem Namen lebenslauf.pdf neben diese Datei,
+         dann wird der Button automatisch aktiv. Bis dahin zeigt er "kommt bald". -->
     <p class="cv-actions">
       <a class="cv-btn is-off" id="cv-btn" href="lebenslauf.pdf" download aria-disabled="true">Lebenslauf als PDF herunterladen</a>
       <span class="cv-note" id="cv-note">kommt bald</span>
@@ -367,6 +351,8 @@
     </div>
   </section>
 
+  <!-- Impressum: Öffentliche Websites in Deutschland brauchen in der Regel eines.
+       Bitte mit deinen echten Daten füllen. -->
   <section id="impressum">
     <h2>Impressum</h2>
     <p>Angaben gemäß § 5 DDG</p>
@@ -375,6 +361,7 @@
   </section>
 </main>
 
+<!-- Detailansicht eines Projekts -->
 <div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" hidden>
   <div class="detail-bar">
     <span>Arbeiten</span>
@@ -394,6 +381,25 @@
 <div id="cursor" aria-hidden="true"><span></span></div>
 
 <script>
+/* =====================================================================
+   DEINE PROJEKTE – hier trägst du alles ein. Pro Projekt ein { ... }-Block,
+   Reihenfolge = Reihenfolge in der Liste.
+
+   title   Titel des Projekts
+   kind    Art, z. B. "Kurzfilm", "Collage", "3D"
+   year    Jahr
+   text    Beschreibung (neue Absätze mit \n\n)
+   media   genau EINS davon eintragen:
+             { youtube: "VIDEO-ID" }      YouTube (ID steht im Link nach v=)
+             { vimeo:   "VIDEO-ID" }      Vimeo   (Zahl am Ende des Links)
+             { image:   "bilder/x.jpg" }  Bild aus deinem bilder-Ordner
+             { flipbook: { ... } }        Magazin zum Durchblättern (siehe erstes Projekt)
+             { video:   "datei.mp4" }     Video direkt von deiner Seite (liegt neben dieser Datei)
+   preview (optional) Bild für die Hover-Vorschau links. Bei YouTube-Videos
+           wird automatisch das YouTube-Vorschaubild genommen.
+   extra   (optional) weitere Bilder für die Detailansicht, z. B. ["bilder/a.jpg", "bilder/b.jpg"]
+   ===================================================================== */
+
   var PROJECTS = [
   {
     title: "AMIRACLES MAGAZIN N°1",
@@ -402,11 +408,14 @@
     text: "Wir sollten für den Typografiekurs ein Magazin erstellen und alle unsere Arbeiten einbetten. Da ich mich während meinen Hausaufgaben eh auf Musik fokussiert habe, habe ich ein Musikmagazin erstellt.",
     media: {
       flipbook: {
-        folder: "",
-        name: "AMIRACLES MAGAZIN N°1_page-{n}.jpg",
-        pad: 4,
-        count: 38,
-        sound: ""
+        folder: "",                                        // "" = die Bilder liegen direkt neben dieser Datei
+        name: "AMIRACLES MAGAZIN N°1_page-{n}.jpg",        // {n} wird durch 0001, 0002 ... ersetzt
+        pad: 4,                                            // 4 Stellen: 0001 bis 0038
+        count: 38,                                         // Anzahl Dateien
+        // spreads: true,                                  // optional: true = Datei 2 bis 37 sind Doppelseiten,
+                                                           // false = jede Datei ist eine einzelne Seite.
+                                                           // Ohne diese Zeile erkennt die Seite es automatisch.
+        sound: ""                                          // optional: eigene Datei, z. B. "blaettern.mp3"
       }
     }
   },
@@ -441,6 +450,7 @@
 <script>
 (function () {
 
+  /* Platzhalter-Farben für Projekte ohne Bild */
   var PLACEHOLDERS = [
     { bg: "#515335", fg: "#a89c70" },
     { bg: "#a89c70", fg: "#503429" },
@@ -451,9 +461,7 @@
   var list = document.getElementById("list");
   var preview = document.getElementById("preview");
   var emptyEl = document.getElementById("empty");
-  var filterBar = document.getElementById("filter-bar");
   var slides = [];
-  var projectElements = [];
 
   function previewSrc(p) {
     if (p.preview) return p.preview;
@@ -463,30 +471,12 @@
     return "";
   }
 
-  /* Dynamische Filter-Buttons aus den vorhandenen Kategorien generieren */
-  var uniqueKinds = [];
-  PROJECTS.forEach(function(p) {
-    if (p.kind && uniqueKinds.indexOf(p.kind) === -1) {
-      uniqueKinds.push(p.kind);
-    }
-  });
-
-  uniqueKinds.forEach(function(kind) {
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "filter-btn";
-    btn.textContent = kind;
-    btn.setAttribute("data-filter", kind);
-    filterBar.appendChild(btn);
-  });
-
   /* Liste + Vorschau-Slides aufbauen */
   PROJECTS.forEach(function (p, i) {
     var li = document.createElement("li");
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "row";
-    btn.setAttribute("data-kind", p.kind);
 
     var meta = document.createElement("span");
     meta.className = "meta";
@@ -501,7 +491,6 @@
     btn.appendChild(meta); btn.appendChild(t);
     li.appendChild(btn);
     list.appendChild(li);
-    projectElements.push({ li: li, btn: btn, kind: p.kind });
 
     var slide = document.createElement("div");
     slide.className = "slide";
@@ -524,24 +513,6 @@
     btn.addEventListener("mouseenter", function () { showSlide(i); });
     btn.addEventListener("focus", function () { showSlide(i); });
     btn.addEventListener("click", function () { openDetail(i, btn); });
-  });
-
-  /* Filter-Logik steuern */
-  var filterButtons = filterBar.querySelectorAll(".filter-btn");
-  filterButtons.forEach(function(fBtn) {
-    fBtn.addEventListener("click", function() {
-      filterButtons.forEach(function(b) { b.classList.remove("active"); });
-      fBtn.classList.add("active");
-      var selectedKind = fBtn.getAttribute("data-filter");
-
-      projectElements.forEach(function(item) {
-        if (selectedKind === "all" || item.kind === selectedKind) {
-          item.li.classList.remove("is-hidden");
-        } else {
-          item.li.classList.add("is-hidden");
-        }
-      });
-    });
   });
 
   function showSlide(i) {
@@ -574,7 +545,7 @@
     } else if (m.video) {
       dMedia.classList.add("is-video");
       var vd = document.createElement("video");
-      vd.src = encodeURI(m.video) + "#t=0.1";
+      vd.src = encodeURI(m.video) + "#t=0.1";     // #t=0.1 zeigt schon vor dem Start ein Standbild
       vd.controls = true;
       vd.playsInline = true;
       vd.preload = "metadata";
@@ -630,7 +601,7 @@
   function closeDetail() {
     detail.hidden = true;
     destroyFlip();
-    dMedia.innerHTML = "";
+    dMedia.innerHTML = "";          // stoppt laufende Videos
     document.body.style.overflow = "";
     if (lastFocus) lastFocus.focus();
   }
@@ -671,6 +642,7 @@
     if (activeFlip) { try { activeFlip.destroy(); } catch (e) {} activeFlip = null; }
   }
 
+  /* Blättergeräusch: eigene Datei (cfg.sound) oder ein kleines Papier-Rauschen aus WebAudio */
   function playFlipSound(cfg) {
     if (!flipSoundOn) return;
     if (cfg.sound) {
@@ -702,7 +674,7 @@
   function buildFlipbook(cfg, host, title) {
     destroyFlip();
     var count = cfg.count || 1;
-    var spreads = (cfg.spreads === true || cfg.spreads === false) ? cfg.spreads : null;
+    var spreads = (cfg.spreads === true || cfg.spreads === false) ? cfg.spreads : null;   // null = automatisch erkennen
 
     host.innerHTML =
       '<div class="flip-ui">' +
@@ -721,6 +693,7 @@
     var book = host.querySelector(".flip-book");
     var label = host.querySelector(".fb-label");
 
+    /* Seitenliste: Cover einzeln, Doppelseiten werden in linke/rechte Hälfte geteilt, Rückseite einzeln */
     var pages = [];
     function buildPages() {
       pages = [];
@@ -745,13 +718,14 @@
       });
     }
 
+    /* Cover (= einzelne Seite) und Datei 2 messen: ist Datei 2 etwa doppelt so breit, sind es Doppelseiten */
     Promise.all([loadSize(flipUrl(cfg, 1)), loadSize(flipUrl(cfg, 2))]).then(function (sz) {
       var cover = sz[0], second = sz[1];
       if (!cover) {
         book.innerHTML = "";
         var msg = document.createElement("p");
         msg.className = "flip-msg";
-        msg.textContent = "Die Seiten wurden nicht gefunden.";
+        msg.textContent = "Die Seiten wurden nicht gefunden. Erwartet wird zum Beispiel: " + decodeURI(flipUrl(cfg, 1));
         book.appendChild(msg);
         return;
       }
@@ -759,7 +733,7 @@
       if (spreads === null) spreads = !!(second && (second.w / second.h) > (cover.w / cover.h) * 1.5);
       buildPages();
       loadPageFlip().then(function () { init(ratio); }).catch(function () {
-        book.innerHTML = '<p class="flip-msg">Das Magazin konnte nicht geladen werden.</p>';
+        book.innerHTML = '<p class="flip-msg">Das Magazin konnte nicht geladen werden. Bitte Internetverbindung prüfen.</p>';
       });
     });
 
@@ -780,6 +754,7 @@
         return el;
       });
 
+      /* Bilder erst laden, wenn sie bald gebraucht werden */
       var loaded = {};
       function ensure(center) {
         for (var i = Math.max(0, center - 4); i <= Math.min(pages.length - 1, center + 7); i++) {
@@ -790,15 +765,16 @@
       }
       ensure(0);
 
+      /* Buchgröße: so groß wie der Platz erlaubt, aber nie höher als der Bildschirm */
       function fit() {
         var full = !!document.fullscreenElement;
         var availH = full ? window.innerHeight - 90 : Math.min(window.innerHeight - 210, 820);
         availH = Math.max(availH, 300);
         var availW = stage.clientWidth || host.clientWidth || window.innerWidth;
         var w;
-        if (availW < 520) {
+        if (availW < 520) {                       // schmal (Handy): eine Seite
           w = Math.min(availW, Math.round(availH * ratio));
-        } else {
+        } else {                                  // breit: aufgeschlagenes Buch mit zwei Seiten
           w = Math.min(availW, Math.round(availH * 2 * ratio));
           w = Math.max(w, 521);
           w = Math.min(w, availW);
@@ -827,6 +803,7 @@
         if (i <= 0) text = "Cover";
         else if (i >= last) text = "Rückseite";
         else if (spreads && count > 2) text = "Doppelseite " + (pages[i].file - 1) + " / " + (count - 2);
+        else if (pf.getOrientation() === "landscape") text = "Seite " + (i + 1) + "–" + (i + 2) + " / " + count;
         else text = "Seite " + (i + 1) + " / " + count;
         label.textContent = text;
       }
@@ -856,6 +833,7 @@
       };
       window.addEventListener("resize", flipResize);
 
+      /* Vollbild: Kreis-Cursor mit ins Vollbild nehmen, sonst ist die Maus unsichtbar */
       flipFs = function () {
         if (document.fullscreenElement === ui) ui.appendChild(cursorEl);
         else if (cursorEl.parentNode !== document.body) document.body.appendChild(cursorEl);
@@ -863,11 +841,12 @@
       };
       document.addEventListener("fullscreenchange", flipFs);
 
+      /* Nach dem Aufbau mehrfach neu berechnen, damit die Größe von Anfang an stimmt */
       [0, 150, 600].forEach(function (ms) { setTimeout(flipResize, ms); });
     }
   }
 
-  /* ---------- Lebenslauf-Button ---------- */
+  /* ---------- Lebenslauf-Button: aktiv, sobald lebenslauf.pdf existiert ---------- */
   (function () {
     var btn = document.getElementById("cv-btn"), note = document.getElementById("cv-note");
     if (!btn || !window.fetch) return;
