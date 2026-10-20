@@ -401,8 +401,6 @@
         folder: "",
         name: "28.10_AMIRACLES MAGAZIN N°1_page-{n}.jpg",
         pad: 4,
-        count: 120,
-        // Hier sagen wir dem Skript genau, welche deiner Lieblingsseiten existieren und geladen werden sollen:
         pages: [1,2,3,4,5,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,54,55,56,57,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,94,95,120],
         sound: ""
       }
@@ -414,6 +412,12 @@
     text: "Wir sollten für einen Einführungskurs in 3D ein kurzes Video rendern. Ich habe mich für ein kleines Musikvideo entschieden.",
     preview: "coverbildmm.png",
     media: { video: "minimusicvideo.mp4" }
+  },
+  {
+    title: "Change Process",
+    kind: "Ausstellungsdesign", year: "2026",
+    text: "Im Rahmen des Hauptprojektes Change Process haben wir uns eine Kokology-Story überlegt, das sind diese japanischen Psychologietests und wir haben dafür die erste Freud meditationstechnik ausgewählt, wo der Besucher in ein zug steigt und entscheidungen fallen soll.\n\nDie Animationen, Teile der Konzeption und der Fragen habe ich gemacht.",
+    media: { video: "web_Bahnhofvideo.mp4" }
   },
   {
     title: "Die Stadt, die nie schläft",
@@ -714,9 +718,15 @@
     var book = host.querySelector(".flip-book");
     var label = host.querySelector(".fb-label");
 
+    /* Seitenaufbau: Erste Seite Cover (hard/full), dazwischen linke/rechte Hälfte für Doppelseiten, letzte Seite Rückseite (hard/full) */
     var pages = [];
-    pageList.forEach(function(num) {
-      pages.push({ file: num, side: "full" });
+    pageList.forEach(function(num, idx) {
+      if (idx === 0 || idx === pageList.length - 1) {
+        pages.push({ file: num, side: "full" });
+      } else {
+        pages.push({ file: num, side: "left" });
+        pages.push({ file: num, side: "right" });
+      }
     });
 
     function loadSize(url) {
@@ -752,8 +762,12 @@
         if (i === 0 || i === pages.length - 1) el.setAttribute("data-density", "hard");
         var pg = document.createElement("div");
         pg.className = "pg";
-        pg.style.backgroundSize = "100% 100%";
-        pg.style.backgroundPosition = "0 0";
+        if (p.side === "full") {
+          pg.style.backgroundSize = "100% 100%"; pg.style.backgroundPosition = "0 0";
+        } else {
+          pg.style.backgroundSize = "200% 100%";
+          pg.style.backgroundPosition = (p.side === "left" ? "0% 0" : "100% 0");
+        }
         el.appendChild(pg);
         el.setAttribute("role", "img");
         el.setAttribute("aria-label", title + ", Seite " + (i + 1));
@@ -776,7 +790,7 @@
         var availH = full ? window.innerHeight - 90 : Math.min(window.innerHeight - 210, 820);
         availH = Math.max(availH, 300);
         var availW = stage.clientWidth || host.clientWidth || window.innerWidth;
-        var w = Math.min(availW, Math.round(availH * ratio));
+        var w = Math.min(availW, Math.round(availH * 2 * ratio));
         book.style.width = Math.round(w) + "px";
       }
       fit();
@@ -800,7 +814,7 @@
         var last = pages.length - 1, text;
         if (i <= 0) text = "Cover";
         else if (i >= last) text = "Rückseite";
-        else text = "Seite " + (i + 1) + " / " + count;
+        else text = "Doppelseite";
         label.textContent = text;
       }
       updateLabel(0);
