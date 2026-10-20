@@ -416,20 +416,22 @@
   {
     title: "Change Process",
     kind: "Ausstellungsdesign", year: "2026",
-    text: "Im Rahmen des Hauptprojektes Change Process haben wir uns eine Kokology-Story überlegt, das sind diese japanischen Psychologietests und wir haben dafür die erste Freud meditationstechnik ausgewählt, wo der Besucher in ein zug steigt und entscheidungen fallen soll.\n\nDie Animationen, Teile der Konzeption und der Fragen habe ich gemacht.",
+    text: "Für das Hauptprojekt Change Process an der Universität haben meine Kommilitonin und ich eine Kokology Geschichte entwickelt. Kokology sind japanische Psychologietests, die mit kurzen Geschichten und Fragen unbewusste Denk- und Verhaltensmuster sichtbar machen. Sie werden häufig als spielerische Selbsttests eingesetzt.\n\nWir haben uns für die erste freudsche Meditationstechnik entschieden: Der Besucher steigt in einen Zug und muss Entscheidungen treffen. Die Animationen, Teile der Konzeption und die Fragen stammen von mir.",
+    preview: "web_changeprocess_bild.png",
     media: { video: "web_Bahnhofvideo.mp4" }
+  },
+  {
+    title: "Vertigo / La Haine Inspiration",
+    kind: "Fotografie / Videografie", year: "2026",
+    text: "Ein fotografisches und videografisches Experiment, inspiriert vom ikonischen Vertigo-Effekt aus dem Film 'La Haine'. Das Projekt kombiniert Porträtfotografie und Bewegtbild, um visuelle Spannung und eine immersive Atmosphäre zu erzeugen.",
+    preview: "juniorintrotitelbild.png",
+    media: { video: "juniorintro.mp4" }
   },
   {
     title: "Die Stadt, die nie schläft",
     kind: "Ausstellungsdesign", year: "2026",
     text: "Im Rahmen eines Hauptprojektes für die Uni haben wir uns eine Ausstellung für das Q Science Space überlegt. Hier habe ich mir mit meiner Partner:in zusammen das Konzept überlegt, es feingeschliffen und mich speziell um die Raumgestaltung gekümmert. Geplant und visuell dargestellt habe ich das mit Blender.",
     media: { image: "installation with poeple.png" }
-  },
-  {
-    title: "Projekttitel 4",
-    kind: "Fotografie", year: "2025",
-    text: "Hier kommt die Beschreibung zu deinem vierten Projekt hin.",
-    media: { image: "" }
   },
   {
     title: "Projekttitel 5",
@@ -576,7 +578,7 @@
       vd.controls = true;
       vd.playsInline = true;
       vd.preload = "metadata";
-      if (m.poster) vd.poster = encodeURI(m.poster);
+      if (p.preview) vd.poster = encodeURI(p.preview);
       vd.setAttribute("aria-label", p.title);
       dMedia.appendChild(vd);
     } else if (m.youtube) {
@@ -592,292 +594,4 @@
       v.setAttribute("allow", "fullscreen; picture-in-picture");
       dMedia.appendChild(v);
     } else if (m.image) {
-      dMedia.classList.add("is-image");
-      var im = document.createElement("img");
-      im.src = m.image; im.alt = p.title;
-      dMedia.appendChild(im);
-    } else {
-      var n = document.createElement("div");
-      n.className = "none";
-      n.textContent = "Hier kommt dein Video oder Bild hin";
-      dMedia.appendChild(n);
-    }
-  }
-
-  function openDetail(i, trigger) {
-    var p = PROJECTS[i];
-    lastFocus = trigger || null;
-    buildMedia(p);
-    dTitle.textContent = p.title;
-    dMeta.textContent = p.kind + " · " + p.year;
-    dDesc.textContent = p.text || "";
-    dExtra.innerHTML = "";
-    (p.extra || []).forEach(function (src) {
-      var im = document.createElement("img");
-      im.src = src; im.alt = "";
-      im.loading = "lazy";
-      dExtra.appendChild(im);
-    });
-    document.querySelector(".detail-body").classList.toggle("wide", !!(p.media && p.media.flipbook));
-    detail.hidden = false;
-    detail.scrollTop = 0;
-    document.body.style.overflow = "hidden";
-    dClose.focus();
-    cursorEl.className = "";
-  }
-  function closeDetail() {
-    detail.hidden = true;
-    destroyFlip();
-    dMedia.innerHTML = "";
-    document.body.style.overflow = "";
-    if (lastFocus) lastFocus.focus();
-  }
-  dClose.addEventListener("click", closeDetail);
-  document.addEventListener("keydown", function (e) {
-    if (detail.hidden) return;
-    if (e.key === "Escape") closeDetail();
-    else if (activeFlip && e.key === "ArrowRight") activeFlip.flipNext();
-    else if (activeFlip && e.key === "ArrowLeft") activeFlip.flipPrev();
-  });
-
-  var FLIP_SRC = "https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js";
-  var flipLoading = null, activeFlip = null, flipResize = null, flipFs = null;
-  var flipSoundOn = true, audioCtx = null;
-
-  function flipUrl(cfg, n) {
-    var num = String(n);
-    while (num.length < (cfg.pad || 4)) num = "0" + num;
-    return encodeURI((cfg.folder || "") + (cfg.name || "28.10_AMIRACLES MAGAZIN N°1_page-{n}.jpg").replace("{n}", num));
-  }
-  function loadPageFlip() {
-    if (window.St && window.St.PageFlip) return Promise.resolve();
-    if (flipLoading) return flipLoading;
-    flipLoading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = FLIP_SRC; s.onload = resolve;
-      s.onerror = function () { flipLoading = null; reject(new Error("load")); };
-      document.head.appendChild(s);
-    });
-    return flipLoading;
-  }
-  function destroyFlip() {
-    if (flipResize) { window.removeEventListener("resize", flipResize); flipResize = null; }
-    if (flipFs) { document.removeEventListener("fullscreenchange", flipFs); flipFs = null; }
-    if (document.fullscreenElement && document.exitFullscreen) { try { document.exitFullscreen(); } catch (e) {} }
-    if (cursorEl && cursorEl.parentNode !== document.body) document.body.appendChild(cursorEl);
-    if (activeFlip) { try { activeFlip.destroy(); } catch (e) {} activeFlip = null; }
-  }
-
-  function playFlipSound(cfg) {
-    if (!flipSoundOn) return;
-    if (cfg.sound) {
-      var a = new Audio(cfg.sound); a.volume = 0.7;
-      a.play().catch(function () {});
-      return;
-    }
-    try {
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === "suspended") audioCtx.resume();
-      var dur = 0.3, rate = audioCtx.sampleRate, n = Math.floor(rate * dur);
-      var buf = audioCtx.createBuffer(1, n, rate), d = buf.getChannelData(0);
-      for (var i = 0; i < n; i++) {
-        var t = i / n;
-        var env = Math.pow(Math.sin(Math.PI * Math.pow(t, 0.55)), 2) * (1 - t * 0.35);
-        d[i] = (Math.random() * 2 - 1) * env;
-      }
-      var src = audioCtx.createBufferSource(); src.buffer = buf;
-      var bp = audioCtx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.7;
-      var now = audioCtx.currentTime;
-      bp.frequency.setValueAtTime(3200, now);
-      bp.frequency.exponentialRampToValueAtTime(900, now + dur);
-      var g = audioCtx.createGain(); g.gain.value = 0.55;
-      src.connect(bp); bp.connect(g); g.connect(audioCtx.destination);
-      src.start();
-    } catch (e) {}
-  }
-
-  function buildFlipbook(cfg, host, title) {
-    destroyFlip();
-    var pageList = cfg.pages || [];
-    var count = pageList.length;
-
-    host.innerHTML =
-      '<div class="flip-ui">' +
-        '<div class="flip-stage"><div class="flip-book"><p class="flip-msg">Magazin wird geladen …</p></div></div>' +
-        '<div class="flip-bar">' +
-          '<button type="button" class="fb-arrow fb-prev" aria-label="Vorherige Seite">‹</button>' +
-          '<span class="fb-label" aria-live="polite"></span>' +
-          '<button type="button" class="fb-arrow fb-next" aria-label="Nächste Seite">›</button>' +
-          '<span class="fb-spacer"></span>' +
-          '<button type="button" class="fb-sound">ton: an</button>' +
-          '<button type="button" class="fb-full">vollbild</button>' +
-        '</div>' +
-      '</div>';
-    var ui = host.querySelector(".flip-ui");
-    var stage = host.querySelector(".flip-stage");
-    var book = host.querySelector(".flip-book");
-    var label = host.querySelector(".fb-label");
-
-    /* Seitenaufbau: Erste Seite Cover (hard/full), dazwischen linke/rechte Hälfte für Doppelseiten, letzte Seite Rückseite (hard/full) */
-    var pages = [];
-    pageList.forEach(function(num, idx) {
-      if (idx === 0 || idx === pageList.length - 1) {
-        pages.push({ file: num, side: "full" });
-      } else {
-        pages.push({ file: num, side: "left" });
-        pages.push({ file: num, side: "right" });
-      }
-    });
-
-    function loadSize(url) {
-      return new Promise(function (resolve) {
-        var im = new Image();
-        im.onload = function () { resolve({ w: im.naturalWidth, h: im.naturalHeight }); };
-        im.onerror = function () { resolve(null); };
-        im.src = url;
-      });
-    }
-
-    Promise.all([loadSize(flipUrl(cfg, pageList[0] || 1))]).then(function (sz) {
-      var cover = sz[0];
-      if (!cover) {
-        book.innerHTML = "";
-        var msg = document.createElement("p");
-        msg.className = "flip-msg";
-        msg.textContent = "Die Magazin-Seiten wurden nicht gefunden.";
-        book.appendChild(msg);
-        return;
-      }
-      var ratio = cfg.ratio || (cover.w / cover.h);
-      loadPageFlip().then(function () { init(ratio); }).catch(function () {
-        book.innerHTML = '<p class="flip-msg">Das Magazin konnte nicht geladen werden.</p>';
-      });
-    });
-
-    function init(ratio) {
-      book.innerHTML = "";
-      var els = pages.map(function (p, i) {
-        var el = document.createElement("div");
-        el.className = "page";
-        if (i === 0 || i === pages.length - 1) el.setAttribute("data-density", "hard");
-        var pg = document.createElement("div");
-        pg.className = "pg";
-        if (p.side === "full") {
-          pg.style.backgroundSize = "100% 100%"; pg.style.backgroundPosition = "0 0";
-        } else {
-          pg.style.backgroundSize = "200% 100%";
-          pg.style.backgroundPosition = (p.side === "left" ? "0% 0" : "100% 0");
-        }
-        el.appendChild(pg);
-        el.setAttribute("role", "img");
-        el.setAttribute("aria-label", title + ", Seite " + (i + 1));
-        book.appendChild(el);
-        return el;
-      });
-
-      var loaded = {};
-      function ensure(center) {
-        for (var i = Math.max(0, center - 4); i <= Math.min(pages.length - 1, center + 7); i++) {
-          if (loaded[i]) continue;
-          loaded[i] = true;
-          els[i].firstChild.style.backgroundImage = 'url("' + flipUrl(cfg, pages[i].file).replace(/"/g, "%22") + '")';
-        }
-      }
-      ensure(0);
-
-      function fit() {
-        var full = !!document.fullscreenElement;
-        var availH = full ? window.innerHeight - 90 : Math.min(window.innerHeight - 210, 820);
-        availH = Math.max(availH, 300);
-        var availW = stage.clientWidth || host.clientWidth || window.innerWidth;
-        var w = Math.min(availW, Math.round(availH * 2 * ratio));
-        book.style.width = Math.round(w) + "px";
-      }
-      fit();
-
-      var pf = new St.PageFlip(book, {
-        width: 500,
-        height: Math.round(500 / ratio),
-        size: "stretch",
-        minWidth: 260, maxWidth: 1200,
-        minHeight: Math.round(260 / ratio), maxHeight: Math.round(1200 / ratio),
-        showCover: true,
-        maxShadowOpacity: 0.45,
-        flippingTime: 900,
-        usePortrait: true,
-        mobileScrollSupport: false
-      });
-      pf.loadFromHTML(els);
-      activeFlip = pf;
-
-      function updateLabel(i) {
-        var last = pages.length - 1, text;
-        if (i <= 0) text = "Cover";
-        else if (i >= last) text = "Rückseite";
-        else text = "Doppelseite";
-        label.textContent = text;
-      }
-      updateLabel(0);
-
-      pf.on("flip", function (e) { updateLabel(e.data); ensure(e.data); });
-      pf.on("changeState", function (e) { if (e.data === "flipping") playFlipSound(cfg); });
-
-      host.querySelector(".fb-prev").addEventListener("click", function () { pf.flipPrev(); });
-      host.querySelector(".fb-next").addEventListener("click", function () { pf.flipNext(); });
-      var soundBtn = host.querySelector(".fb-sound");
-      soundBtn.textContent = flipSoundOn ? "ton: an" : "ton: aus";
-      soundBtn.addEventListener("click", function () {
-        flipSoundOn = !flipSoundOn;
-        soundBtn.textContent = flipSoundOn ? "ton: an" : "ton: aus";
-      });
-      host.querySelector(".fb-full").addEventListener("click", function () {
-        if (document.fullscreenElement) document.exitFullscreen();
-        else if (ui.requestFullscreen) ui.requestFullscreen();
-      });
-
-      flipResize = function () {
-        if (activeFlip !== pf) return;
-        fit();
-        try { pf.update(); } catch (e) {}
-      };
-      window.addEventListener("resize", flipResize);
-
-      flipFs = function () {
-        if (document.fullscreenElement === ui) ui.appendChild(cursorEl);
-        else if (cursorEl.parentNode !== document.body) document.body.appendChild(cursorEl);
-        flipResize();
-      };
-      document.addEventListener("fullscreenchange", flipFs);
-
-      [0, 150, 600].forEach(function (ms) { setTimeout(flipResize, ms); });
-    }
-  }
-
-  (function () {
-    var btn = document.getElementById("cv-btn"), note = document.getElementById("cv-note");
-    if (!btn || !window.fetch) return;
-    fetch(btn.getAttribute("href"), { method: "HEAD" }).then(function (r) {
-      if (r.ok) { btn.classList.remove("is-off"); btn.removeAttribute("aria-disabled"); note.hidden = true; }
-    }).catch(function () {});
-  })();
-
-  var cursorEl = document.getElementById("cursor");
-  var cursorText = cursorEl.querySelector("span");
-  window.addEventListener("pointermove", function (e) {
-    cursorEl.style.opacity = 1;
-    cursorEl.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
-    var t = e.target.closest ? e.target : null;
-    if (t && t.closest(".row")) {
-      cursorEl.className = "big"; cursorText.textContent = "ansehen";
-    } else if (t && t.closest("a, button")) {
-      cursorEl.className = "link"; cursorText.textContent = "";
-    } else {
-      cursorEl.className = ""; cursorText.textContent = "";
-    }
-  });
-
-})();
-</script>
-
-</body>
-</html>
+      dMedia.classList.add("is
