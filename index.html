@@ -6,7 +6,6 @@
 <title>Amira – ring ring</title>
 
 <style>
-  /* Farben aus deiner Palette (Old Rose, Rosewood, Sand, Ebony, Dark Coffee) */
   :root {
     --coffee: #503429;     /* Dark Coffee */
     --ebony: #515335;      /* Ebony */
@@ -23,7 +22,12 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
-  /* obere Leiste, wie bei deiner Referenz */
+  /* Hintergrundbild von dir (transparent) */
+  #bg-photo {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.15; pointer-events: none; z-index: 1;
+  }
+
   .bar {
     position: fixed; top: 0; left: 0; right: 0; height: 30px;
     display: flex; align-items: center; justify-content: space-between;
@@ -34,15 +38,14 @@
   .bar a { color: inherit; text-decoration: none; }
   .bar a:hover { text-decoration: underline; }
 
-  /* riesige Schrift hinter dem Handy */
   #big {
     position: fixed; left: 1.5rem; top: 44px; margin: 0;
     font-weight: 800; font-size: clamp(4.5rem, 17vw, 17rem);
     line-height: 0.85; letter-spacing: -0.055em;
-    color: var(--coffee); z-index: 1; pointer-events: none;
+    color: var(--coffee); z-index: 2; pointer-events: none;
   }
 
-  canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 2; display: block; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3; display: block; }
 
   #hint {
     position: fixed; left: 0; right: 0; bottom: 1.2rem; text-align: center;
@@ -61,16 +64,15 @@
   #cta {
     position: fixed; right: 1.5rem; bottom: 1.2rem; z-index: 6;
     font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em;
-    color: var(--coffee); background: var(--sand);
-    border: 2px solid var(--coffee); border-radius: 999px;
-    padding: .6rem 1.4rem; text-decoration: none;
+    color: var(--rose); background: var(--ebony);
+    border: none; border-radius: 999px;
+    padding: .8rem 1.6rem; text-decoration: none;
     opacity: 0; pointer-events: none; transform: translateY(10px);
     transition: opacity .4s, transform .4s;
   }
   #cta.show { opacity: 1; pointer-events: auto; transform: none; }
-  #cta:hover { background: var(--ebony); color: var(--sand); }
+  #cta:hover { background: var(--sand); color: var(--coffee); }
 
-  /* Mauszeiger als Kreis (nur bei Maus, nicht am Handy) */
   #cursor { display: none; opacity: 0; }
   @media (hover: hover) and (pointer: fine) {
     body, a, button { cursor: none; }
@@ -92,6 +94,8 @@
 
 <body>
 
+<img id="bg-photo" src="loop1.png" alt="">
+
 <div class="bar">
   <span>AMIRA</span>
   <a href="arbeiten.html" id="skip">überspringen</a>
@@ -101,18 +105,16 @@
 
 <p id="hint">tippe aufs Handy, um abzunehmen</p>
 <button id="sound" type="button">ton an?</button>
-<a id="cta" href="seite2arbeiten.html">portfolio ansehen</a>
+<a id="cta" href="arbeiten.html">Weiter zu Amiras Arbeiten</a>
 <div id="cursor" aria-hidden="true"><span></span></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
 
-  /* ---------- Einstellungen ---------- */
-  var MESSAGE = "heyyy, ich heiße amira. ich bin designstudentin und arbeite sehr gerne mit collage, fotografie, film, 3d und text. viel spaß beim durchstöbern. kussi.";
+  var MESSAGE = "Hey, ich heiße Amira, ich bin Designstudentin und würde mich sehr gerne vorstellen. Viel Spaß beim Stöbern.";
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Szene ---------- */
   var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   document.body.appendChild(renderer.domElement);
@@ -129,7 +131,6 @@
   fill.position.set(-5, -2, 6);
   scene.add(fill);
 
-  /* ---------- Hilfsfunktionen für das Modell ---------- */
   function roundedRect(w, h, r) {
     var s = new THREE.Shape();
     var x = -w / 2, y = -h / 2;
@@ -160,153 +161,155 @@
     return new THREE.MeshPhongMaterial({ color: color, shininess: 70, specular: 0x555555 });
   }
 
-  var shellMat = phong(0x515335);   // Gehäuse: Ebony
+  var shellMat = phong(0x515335);   // Ebony Gehäuse
   var darkMat  = phong(0x503429);   // Dark Coffee
-  var redMat   = phong(0xae5369);   // Navigationstaste: Rosewood
-  var keyMat   = phong(0xd58198);   // Old Rose
+  var redMat   = phong(0xae5369);   // Rosewood Akzente
+  var keyMat   = phong(0xd58198);   // Old Rose Tasten
 
-  /* ---------- Handy ---------- */
+  /* ---------- Aufklapphandy (Flip-Phone) ---------- */
   var phone = new THREE.Group();
   phone.rotation.order = "YXZ";
   scene.add(phone);
 
-  var body = slab(2.0, 4.6, 0.7, 0.5, 0.12, shellMat);
-  phone.add(body);
-  var z0 = 0.37; // Vorderseite des Gehäuses
+  // Untere Hälfte (Tastatur)
+  var bottomHalf = new THREE.Group();
+  var bBody = slab(2.0, 2.3, 0.5, 0.35, 0.08, shellMat);
+  bBody.position.set(0, -1.15, 0);
+  bottomHalf.add(bBody);
 
-  var speaker = slab(0.55, 0.07, 0.035, 0.02, 0.01, darkMat);
-  speaker.position.set(0, 2.0, z0 + 0.01);
-  phone.add(speaker);
+  // Tastenfelder
+  for (var i = 0; i < 6; i++) {
+    var col = i % 3, row = Math.floor(i / 3);
+    var kx = (col - 1) * 0.58;
+    var ky = -0.7 - row * 0.45;
+    var key = slab(0.45, 0.3, 0.08, 0.03, 0.02, keyMat);
+    key.position.set(kx, ky, 0.19);
+    bottomHalf.add(key);
+  }
+  phone.add(bottomHalf);
 
-  var bezel = slab(1.62, 1.18, 0.18, 0.02, 0.02, darkMat);
-  bezel.position.set(0, 1.2, z0 + 0.02);
-  phone.add(bezel);
+  // Obere Hälfte (Klappe mit Display) - drehbar am Scharnier oben
+  var topFlapPivot = new THREE.Group();
+  topFlapPivot.position.set(0, 0, 0.17); // Scharnier-Punkt
+  phone.add(topFlapPivot);
+
+  var topBody = new THREE.Group();
+  topBody.position.set(0, 1.15, -0.17);
+  var tBodyMesh = slab(2.0, 2.3, 0.5, 0.35, 0.08, shellMat);
+  tBodyMesh.position.set(0, 0, 0);
+  topBody.add(tBodyMesh);
 
   /* Display als Canvas-Textur */
   var sc = document.createElement("canvas");
-  sc.width = 420; sc.height = 290;
+  sc.width = 420; sc.height = 480;
   var sx = sc.getContext("2d");
   var screenTex = new THREE.CanvasTexture(sc);
   var screenMesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.4, 0.97),
+    new THREE.PlaneGeometry(1.6, 1.9),
     new THREE.MeshBasicMaterial({ map: screenTex })
   );
-  screenMesh.position.set(0, 1.2, z0 + 0.075);
-  phone.add(screenMesh);
+  screenMesh.position.set(0, 0, 0.19);
+  topBody.add(screenMesh);
 
-  /* Anruf-Lämpchen (blinkt beim Klingeln) */
+  topFlapPivot.add(topBody);
+  topFlapPivot.rotation.x = 0; // Startet zugeklappt (oder leicht angewinkelt)
+
+  /* Anruf-Lämpchen */
   var led = new THREE.Mesh(
-    new THREE.SphereGeometry(0.075, 20, 20),
-    new THREE.MeshBasicMaterial({ color: 0xd58198 })   // Old Rose
+    new THREE.SphereGeometry(0.06, 20, 20),
+    new THREE.MeshBasicMaterial({ color: 0xd58198 })
   );
-  led.position.set(0.72, 2.0, z0 + 0.04);
+  led.position.set(0.75, -0.3, 0.2);
   phone.add(led);
 
-  /* Navigationstaste */
-  var nav = slab(0.8, 0.34, 0.17, 0.04, 0.03, redMat);
-  nav.position.set(0, 0.4, z0 + 0.02);
-  phone.add(nav);
+  /* ---------- Display-Inhalte (Bild laden für Profilbild) ---------- */
+  var profileImg = new Image();
+  profileImg.src = "loop1.png";
+  var imgLoaded = false;
+  profileImg.onload = function() { imgLoaded = true; };
 
-  /* Tastatur */
-  function keyLabel(top, bottom) {
-    var c = document.createElement("canvas");
-    c.width = 160; c.height = 100;
-    var g = c.getContext("2d");
-    g.textAlign = "center";
-    g.fillStyle = "#503429";
-    g.font = "bold 54px Helvetica, Arial, sans-serif";
-    g.fillText(top, 80, bottom ? 58 : 66);
-    if (bottom) {
-      g.fillStyle = "#515335";
-      g.font = "bold 22px Helvetica, Arial, sans-serif";
-      g.fillText(bottom, 80, 88);
-    }
-    return new THREE.CanvasTexture(c);
-  }
-  var labels = [
-    ["1", ""], ["2", "abc"], ["3", "def"],
-    ["4", "ghi"], ["5", "jkl"], ["6", "mno"],
-    ["7", "pqrs"], ["8", "tuv"], ["9", "wxyz"],
-    ["*", ""], ["0", "+"], ["#", ""]
-  ];
-  for (var i = 0; i < 12; i++) {
-    var col = i % 3, row = Math.floor(i / 3);
-    var x = (col - 1) * 0.62;
-    var y = -0.25 - row * 0.47;
-    var key = slab(0.5, 0.32, 0.1, 0.04, 0.03, keyMat);
-    key.position.set(x, y, z0 + 0.02);
-    phone.add(key);
-    var lab = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.42, 0.26),
-      new THREE.MeshBasicMaterial({ map: keyLabel(labels[i][0], labels[i][1]), transparent: true, depthWrite: false })
-    );
-    lab.position.set(x, y, z0 + 0.02 + 0.02 + 0.03 + 0.006);
-    phone.add(lab);
-  }
-
-  /* ---------- Display-Inhalte ---------- */
   var INK = "#503429", LCD = "#a89c70";
   var FONT = '"Courier New", Courier, monospace';
 
   function lcdBase() {
     sx.fillStyle = LCD;
-    sx.fillRect(0, 0, 420, 290);
+    sx.fillRect(0, 0, 420, 480);
     sx.fillStyle = "rgba(80,52,41,0.07)";
-    for (var y = 0; y < 290; y += 4) sx.fillRect(0, y, 420, 1);
+    for (var y = 0; y < 480; y += 4) sx.fillRect(0, y, 420, 1);
   }
+
   function drawRinging(t) {
     lcdBase();
     sx.fillStyle = INK;
     sx.textAlign = "center";
-    sx.font = "bold 24px " + FONT;
-    sx.fillText("eingehender anruf", 210, 52);
-    sx.font = "bold 62px " + FONT;
-    sx.fillText("amira", 210, 138);
+    sx.font = "bold 22px " + FONT;
+    sx.fillText("eingehender anruf", 210, 80);
+    sx.font = "bold 52px " + FONT;
+    sx.fillText("amira", 210, 160);
     if (Math.floor(t * 3) % 2 === 0) {
-      sx.font = "bold 30px " + FONT;
-      sx.fillText("ring ring...", 210, 196);
+      sx.font = "bold 26px " + FONT;
+      sx.fillText("ring ring...", 210, 240);
     }
-    sx.fillRect(0, 238, 420, 52);
+    sx.fillRect(40, 360, 340, 60);
     sx.fillStyle = LCD;
-    sx.font = "bold 26px " + FONT;
-    sx.fillText("annehmen", 210, 274);
+    sx.font = "bold 24px " + FONT;
+    sx.fillText("annehmen", 210, 398);
   }
 
   var wrapped = null, totalChars = 0;
   function prepareText() {
-    sx.font = "bold 24px " + FONT;
+    sx.font = "bold 20px " + FONT;
     var words = MESSAGE.split(" "), lines = [], cur = "";
     words.forEach(function (w) {
       var test = cur ? cur + " " + w : w;
-      if (sx.measureText(test).width > 384 && cur) { lines.push(cur); cur = w; }
+      if (sx.measureText(test).width > 240 && cur) { lines.push(cur); cur = w; }
       else cur = test;
     });
     if (cur) lines.push(cur);
     wrapped = lines;
     totalChars = lines.join("").length;
   }
-  function drawTyped(n, t) {
-    lcdBase();
-    sx.fillStyle = INK;
-    sx.textAlign = "left";
-    sx.font = "bold 24px " + FONT;
-    var remaining = Math.floor(n), y = 46, lastLen = 0, lastBase = 46;
-    for (var i = 0; i < wrapped.length; i++) {
-      var line = wrapped[i];
-      lastLen = Math.min(line.length, Math.max(0, remaining));
-      lastBase = y;
-      sx.fillText(line.slice(0, lastLen), 18, y);
-      remaining -= line.length;
-      y += 34;
-      if (remaining <= 0) break;
-    }
-    if (n < totalChars && Math.floor(t * 4) % 2 === 0) { // Cursor-Block beim Tippen
-      sx.fillRect(18 + lastLen * 14.4, lastBase - 20, 12, 24);
-    }
-  }
   prepareText();
 
-  /* ---------- Sound (erst nach Klick erlaubt) ---------- */
+  function drawTyped(n, t) {
+    lcdBase();
+    
+    // Profilbild (Pixel-Look simuliert / Quadratisch links oben)
+    if (imgLoaded) {
+      try {
+        sx.drawImage(profileImg, 30, 40, 100, 100);
+        // Leichter Raster-Effekt drüber
+        sx.fillStyle = "rgba(168, 156, 112, 0.2)";
+        for(let px = 30; px < 130; px += 4) {
+          for(let py = 40; py < 140; py += 4) {
+            sx.fillRect(px, py, 2, 2);
+          }
+        }
+      } catch(e) {}
+    }
+
+    // Text-Bubble (WhatsApp style)
+    sx.fillStyle = "rgba(255, 255, 255, 0.6)";
+    sx.fillRect(145, 30, 245, 220);
+    sx.strokeStyle = INK;
+    sx.lineWidth = 2;
+    sx.strokeRect(145, 30, 245, 220);
+
+    sx.fillStyle = INK;
+    sx.textAlign = "left";
+    sx.font = "bold 18px " + FONT;
+    var remaining = Math.floor(n), y = 65;
+    for (var i = 0; i < wrapped.length; i++) {
+      var line = wrapped[i];
+      var lastLen = Math.min(line.length, Math.max(0, remaining));
+      sx.fillText(line.slice(0, lastLen), 160, y);
+      remaining -= line.length;
+      y += 26;
+      if (remaining <= 0) break;
+    }
+  }
+
+  /* ---------- Sound ---------- */
   var actx = null, soundOn = false, ringTimer = null, ringBase = 0;
   function ensureAudio() {
     if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
@@ -360,8 +363,9 @@
   });
 
   /* ---------- Ablauf ---------- */
-  var state = "ringing"; // ringing -> typing -> done
+  var state = "ringing"; // ringing -> opening -> typing -> done
   var typed = 0;
+  var openProgress = 0; // 0 = zu, 1 = aufgeklappt
   var big = document.getElementById("big");
   var hint = document.getElementById("hint");
   var cta = document.getElementById("cta");
@@ -369,14 +373,13 @@
   function answer() {
     if (state !== "ringing") return;
     stopRing();
-    state = "typing";
+    state = "opening";
     beep(880, 0, 0.08); beep(1320, 0.1, 0.12);
     big.innerHTML = "heyyy";
     hint.classList.add("off");
     cursorEl.className = "";
   }
 
-  /* ---------- Größe & Position ---------- */
   var baseX = 0, baseY = 0, baseScale = 1;
   function resize() {
     var w = window.innerWidth, h = window.innerHeight;
@@ -386,13 +389,12 @@
     camera.position.z = wide ? 13 : 15;
     camera.updateProjectionMatrix();
     var visW = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z * camera.aspect;
-    baseX = wide ? Math.min(3.8, visW * 0.22) : 0;
-    baseY = wide ? -0.15 : -1.2;
+    baseX = wide ? Math.min(3.5, visW * 0.2) : 0;
+    baseY = wide ? 0 : -1.0;
     baseScale = wide ? 1 : 0.95;
   }
   window.addEventListener("resize", resize);
 
-  /* ---------- Maus / Touch ---------- */
   var mx = 0, my = 0;
   var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
   var cursorEl = document.getElementById("cursor");
@@ -422,9 +424,8 @@
     if (overPhone(e)) answer();
   });
 
-  /* ---------- Animation ---------- */
   var clock = new THREE.Clock();
-  var cur = { rx: 0.12, ry: -0.4, scale: 1 };
+  var cur = { rx: 0.1, ry: -0.3, scale: 1 };
 
   function tick() {
     requestAnimationFrame(tick);
@@ -435,8 +436,8 @@
     var shakeX = 0, shakeZ = 0;
 
     if (state === "ringing") {
-      targetRy = -0.4 + mx * 0.15;
-      targetRx = 0.12 + my * 0.08;
+      targetRy = -0.3 + mx * 0.15;
+      targetRx = 0.1 + my * 0.08;
       targetScale = 1;
       var phase = (t - ringBase) % 1.6;
       if (phase < 1.0 && !reduceMotion) {
@@ -444,21 +445,33 @@
         shakeZ = Math.sin(t * 75) * 0.06;
       }
       drawRinging(t);
+      topFlapPivot.rotation.x = 0; // zugeklappt
     } else {
-      targetRy = mx * 0.12;
-      targetRx = my * 0.06;
-      targetScale = 1.25;
-      if (state === "typing") {
-        typed += dt * 26;
-        if (typed >= totalChars) { typed = totalChars; state = "done"; cta.classList.add("show"); }
+      // Aufklappen & Zoom auf den Bildschirm
+      openProgress = Math.min(1, openProgress + dt * 2.2);
+      // Klappe öffnet sich um ca. 140 Grad (-2.4 Radiant)
+      topFlapPivot.rotation.x = -openProgress * 2.4;
+
+      targetRy = mx * 0.08;
+      targetRx = my * 0.04;
+      // Sanfter Zoom rein auf die obere Hälfte / Bildschirm
+      targetScale = 1.65; 
+
+      if (openProgress >= 1) {
+        if (state === "opening") state = "typing";
+        if (state === "typing") {
+          typed += dt * 28;
+          if (typed >= totalChars) { typed = totalChars; state = "done"; cta.classList.add("show"); }
+        }
       }
       drawTyped(typed, t);
     }
+
     screenTex.needsUpdate = true;
     var ledOn = state === "ringing" ? Math.floor(t * 4) % 2 === 0 : true;
     led.material.color.setHex(ledOn ? 0xd58198 : 0x503429);
 
-    var k = 1 - Math.pow(0.0015, dt); // weiches Nachziehen
+    var k = 1 - Math.pow(0.0015, dt);
     cur.ry += (targetRy - cur.ry) * k;
     cur.rx += (targetRx - cur.rx) * k;
     cur.scale += (targetScale - cur.scale) * k;
@@ -467,7 +480,10 @@
     phone.rotation.x = cur.rx;
     phone.rotation.z = shakeZ;
     phone.position.x = baseX + shakeX;
-    phone.position.y = baseY + (reduceMotion ? 0 : Math.sin(t * 1.4) * 0.08);
+    // Wenn es aufgeklappt ist, verschieben wir das Handy nach unten, damit der Bildschirm genau in der Mitte zentriert ist
+    var targetPosY = baseY + (openProgress * 0.8) + (reduceMotion ? 0 : Math.sin(t * 1.4) * 0.05);
+    phone.position.y += (targetPosY - phone.position.y) * k;
+    
     phone.scale.setScalar(cur.scale * baseScale);
 
     renderer.render(scene, camera);
