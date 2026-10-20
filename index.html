@@ -69,7 +69,7 @@
     position: fixed; right: 1.5rem; bottom: 1.2rem; z-index: 6;
     font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em;
     color: var(--rose); background: var(--ebony);
-    border: none; border-radius: 999px;
+    border: none; outline: none; border-radius: 999px;
     padding: .8rem 1.6rem; text-decoration: none;
     opacity: 0; pointer-events: none; transform: translateY(10px);
     transition: opacity .4s, transform .4s;
@@ -464,7 +464,7 @@
   });
 
   window.addEventListener("pointerdown", function (e) {
-    // Falls auf Links oder Buttons geklickt wird, verlinken sie normal und 3D greift NICHT ein
+    // Links & Buttons verlinken normal, ohne dass das 3D-Handy dazwischenfunkt
     if (e.target.closest && e.target.closest("a, button")) return;
 
     if (overPhone(e)) answer();
@@ -499,9 +499,9 @@
       // Starker Zoom & Fokus exakt auf das Display in der Mitte
       targetRy = mx * 0.05;
       targetRx = my * 0.03;
-      targetScale = 2.3; // Sehr nah heran gezoomt!
-      targetX = 0; // Zentriert
-      targetY = -1.4; // Richtet die Kamera exakt auf den Bildschirm aus
+      targetScale = 2.4; // Extrem nah heran gezoomt!
+      targetX = 0;       // Perfekt zentriert
+      targetY = -1.45;   // Richtet den Fokus genau auf den LCD-Bildschirm aus
 
       if (state === "typing") {
         typed += dt * 30;
