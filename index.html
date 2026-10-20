@@ -22,6 +22,12 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
+  /* Transparentes Hintergrundbild */
+  #bg-photo {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.15; pointer-events: none; z-index: 1;
+  }
+
   .bar {
     position: fixed; top: 0; left: 0; right: 0; height: 30px;
     display: flex; align-items: center; justify-content: space-between;
@@ -58,17 +64,18 @@
   }
   #sound:hover { background: var(--sand); }
 
+  /* Button OHNE Kontur */
   #cta {
     position: fixed; right: 1.5rem; bottom: 1.2rem; z-index: 6;
     font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em;
-    color: var(--coffee); background: var(--sand);
-    border: 2px solid var(--coffee); border-radius: 999px;
-    padding: .6rem 1.4rem; text-decoration: none;
+    color: var(--rose); background: var(--ebony);
+    border: none; border-radius: 999px;
+    padding: .8rem 1.6rem; text-decoration: none;
     opacity: 0; pointer-events: none; transform: translateY(10px);
     transition: opacity .4s, transform .4s;
   }
   #cta.show { opacity: 1; pointer-events: auto; transform: none; }
-  #cta:hover { background: var(--ebony); color: var(--sand); }
+  #cta:hover { background: var(--sand); color: var(--coffee); }
 
   #cursor { display: none; opacity: 0; }
   @media (hover: hover) and (pointer: fine) {
@@ -90,6 +97,9 @@
 </head>
 
 <body>
+
+<!-- Transparentes Hintergrundbild -->
+<img id="bg-photo" src="loop1.png" alt="">
 
 <div class="bar">
   <span>AMIRA</span>
@@ -189,7 +199,7 @@
 
   /* Display als Canvas-Textur */
   var sc = document.createElement("canvas");
-  sc.width = 420; sc.height = 290;
+  sc.width = 512; sc.height = 360;
   var sx = sc.getContext("2d");
   var screenTex = new THREE.CanvasTexture(sc);
   var screenMesh = new THREE.Mesh(
@@ -255,9 +265,9 @@
 
   function lcdBase() {
     sx.fillStyle = LCD;
-    sx.fillRect(0, 0, 420, 290);
-    sx.fillStyle = "rgba(80,52,41,0.07)";
-    for (var y = 0; y < 290; y += 4) sx.fillRect(0, y, 420, 1);
+    sx.fillRect(0, 0, 512, 360);
+    sx.fillStyle = "rgba(80,52,41,0.06)";
+    for (var y = 0; y < 360; y += 4) sx.fillRect(0, y, 512, 1);
   }
 
   function drawRinging(t) {
@@ -265,30 +275,30 @@
     sx.fillStyle = INK;
     sx.textAlign = "center";
     
-    sx.font = "bold 18px " + FONT;
-    sx.fillText("eingehender anruf:", 210, 45);
+    sx.font = "bold 22px " + FONT;
+    sx.fillText("eingehender anruf:", 256, 55);
     
-    sx.font = "bold 20px " + FONT;
-    sx.fillText("bewerberin amira naaiyess", 210, 75);
+    sx.font = "bold 24px " + FONT;
+    sx.fillText("bewerberin amira naaiyess", 256, 95);
 
     if (Math.floor(t * 3) % 2 === 0) {
-      sx.font = "bold 32px " + FONT;
-      sx.fillText("ring ring...", 210, 150);
+      sx.font = "bold 38px " + FONT;
+      sx.fillText("ring ring...", 256, 190);
     }
 
-    sx.fillRect(0, 238, 420, 52);
+    sx.fillRect(0, 295, 512, 65);
     sx.fillStyle = LCD;
-    sx.font = "bold 26px " + FONT;
-    sx.fillText("annehmen", 210, 274);
+    sx.font = "bold 30px " + FONT;
+    sx.fillText("annehmen", 256, 338);
   }
 
   var wrapped = null, totalChars = 0;
   function prepareText() {
-    sx.font = "bold 16px " + FONT;
+    sx.font = "bold 18px " + FONT;
     var words = MESSAGE.split(" "), lines = [], cur = "";
     words.forEach(function (w) {
       var test = cur ? cur + " " + w : w;
-      if (sx.measureText(test).width > 280 && cur) { lines.push(cur); cur = w; }
+      if (sx.measureText(test).width > 320 && cur) { lines.push(cur); cur = w; }
       else cur = test;
     });
     if (cur) lines.push(cur);
@@ -300,38 +310,37 @@
   function drawTyped(n, t) {
     lcdBase();
     
-    // Quadratisches Profilbild links auf dem LCD
+    // Großes Profilbild links
     if (imgLoaded) {
       try {
-        sx.drawImage(profileImg, 12, 18, 75, 75);
-        // Leichter Retro-Pixel-Effekt drüber
-        sx.fillStyle = "rgba(168, 156, 112, 0.2)";
-        for(let px = 12; px < 87; px += 3) {
-          for(let py = 18; py < 93; py += 3) {
-            sx.fillRect(px, py, 1.5, 1.5);
+        sx.drawImage(profileImg, 15, 25, 120, 120);
+        sx.fillStyle = "rgba(168, 156, 112, 0.15)";
+        for(let px = 15; px < 135; px += 4) {
+          for(let py = 25; py < 145; py += 4) {
+            sx.fillRect(px, py, 2, 2);
           }
         }
       } catch(e) {}
     }
 
     // Sprechblase / Chat-Bubble
-    sx.fillStyle = "rgba(255, 255, 255, 0.85)";
-    sx.fillRect(98, 15, 308, 255);
+    sx.fillStyle = "rgba(255, 255, 255, 0.88)";
+    sx.fillRect(145, 20, 352, 320);
     sx.strokeStyle = INK;
     sx.lineWidth = 2;
-    sx.strokeRect(98, 15, 308, 255);
+    sx.strokeRect(145, 20, 352, 320);
 
     // Text in der Sprechblase
     sx.fillStyle = INK;
     sx.textAlign = "left";
-    sx.font = "bold 16px " + FONT;
-    var remaining = Math.floor(n), y = 38;
+    sx.font = "bold 18px " + FONT;
+    var remaining = Math.floor(n), y = 52;
     for (var i = 0; i < wrapped.length; i++) {
       var line = wrapped[i];
       var lastLen = Math.min(line.length, Math.max(0, remaining));
-      sx.fillText(line.slice(0, lastLen), 110, y);
+      sx.fillText(line.slice(0, lastLen), 160, y);
       remaining -= line.length;
-      y += 24;
+      y += 28;
       if (remaining <= 0) break;
     }
   }
@@ -401,9 +410,9 @@
     stopRing();
     state = "typing";
     beep(880, 0, 0.08); beep(1320, 0.1, 0.12);
-    big.classList.add("hide"); // blendet das riesige Ring Ring aus
+    big.classList.add("hide");
     hint.classList.add("off");
-    cursorEl.className = "";
+    if (cursorEl) cursorEl.className = "";
   }
 
   /* ---------- Größe & Position ---------- */
@@ -422,11 +431,11 @@
   }
   window.addEventListener("resize", resize);
 
-  /* ---------- Maus / Touch ---------- */
+  /* ---------- Maus / Touch & Gefixte Links ---------- */
   var mx = 0, my = 0;
   var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
   var cursorEl = document.getElementById("cursor");
-  var cursorText = cursorEl.querySelector("span");
+  var cursorText = cursorEl ? cursorEl.querySelector("span") : null;
 
   function overPhone(e) {
     ndc.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -434,21 +443,30 @@
     ray.setFromCamera(ndc, camera);
     return ray.intersectObject(phone, true).length > 0;
   }
+
   window.addEventListener("pointermove", function (e) {
     mx = (e.clientX / window.innerWidth) * 2 - 1;
     my = (e.clientY / window.innerHeight) * 2 - 1;
+    if (!cursorEl) return;
     cursorEl.style.opacity = 1;
     cursorEl.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+
     if (state === "ringing" && overPhone(e)) {
-      cursorEl.className = "big"; cursorText.textContent = "abnehmen";
+      cursorEl.className = "big"; 
+      if (cursorText) cursorText.textContent = "abnehmen";
     } else if (e.target.closest && e.target.closest("a, button")) {
-      cursorEl.className = "link"; cursorText.textContent = "";
+      cursorEl.className = "link"; 
+      if (cursorText) cursorText.textContent = "";
     } else {
-      cursorEl.className = ""; cursorText.textContent = "";
+      cursorEl.className = ""; 
+      if (cursorText) cursorText.textContent = "";
     }
   });
+
   window.addEventListener("pointerdown", function (e) {
+    // Falls auf Links oder Buttons geklickt wird, verlinken sie normal und 3D greift NICHT ein
     if (e.target.closest && e.target.closest("a, button")) return;
+
     if (overPhone(e)) answer();
   });
 
@@ -478,12 +496,12 @@
       }
       drawRinging(t);
     } else {
-      // Beim Abnehmen zentriert sich das Handy und zoomt rein
-      targetRy = mx * 0.1;
-      targetRx = my * 0.05;
-      targetScale = 1.45; // Sanfter Zoom auf das Nokia
-      targetX = 0; // Zentriert in der Mitte
-      targetY = -0.2; // Perfekt für den Fokus auf das Display
+      // Starker Zoom & Fokus exakt auf das Display in der Mitte
+      targetRy = mx * 0.05;
+      targetRx = my * 0.03;
+      targetScale = 2.3; // Sehr nah heran gezoomt!
+      targetX = 0; // Zentriert
+      targetY = -1.4; // Richtet die Kamera exakt auf den Bildschirm aus
 
       if (state === "typing") {
         typed += dt * 30;
